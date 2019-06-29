@@ -11,6 +11,9 @@
         $update_product->bindParam(":productprice",$productprice);
         $update_product->bindParam(":tbl_product_id",$id);
         $update_product->execute();
+            if($update_product->rowCount()){
+                echo "<br>Update Successfull<br>";
+            }
         }else{
             echo "<br>Fields Are Empty, Please Check The Fields<br>";
         }
@@ -20,6 +23,9 @@
         $delete = $pdo->prepare("DELETE FROM `tbl_product` WHERE `id` = :id");
         $delete->bindParam(":id",$id);
         $delete->execute();
+        if($delete->rowCount()){
+            echo "Recored Deleted Successfully";
+        }
     }
     if(isset($_GET['edit'])){
 		$id = trim($_GET['edit']);
