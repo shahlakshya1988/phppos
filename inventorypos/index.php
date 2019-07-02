@@ -15,6 +15,10 @@ if(isset($_POST["btn_login"])){
   $row = $get_user->fetch(PDO::FETCH_OBJ);
 //var_dump($row);
   if($row->useremail == $email && $row->password){
+      $_SESSION["userid"] = $row->userid;
+      $_SESSION["name"] = $row->username;
+      $_SESSION["useremail"] = $row->useremail;
+      $_SESSION["role"] = $row->role;
     //var_dump("Login Success");
     if($row->role=="Admin"){
         // if the user is admin

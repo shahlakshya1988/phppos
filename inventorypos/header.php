@@ -1,3 +1,9 @@
+<?php require "connect_db.php";
+    if(!isset($_SESSION["useremail"])){
+        header("refresh:0;index.php");
+        die();
+    }
+?>
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -99,7 +105,7 @@ desired effect
               <!-- Menu Body -->
               <li class="user-body">
                 <div class="row">
-                  
+
                 </div>
                 <!-- /.row -->
               </li>
@@ -115,7 +121,7 @@ desired effect
             </ul>
           </li>
           <!-- Control Sidebar Toggle Button -->
-          
+
         </ul>
       </div>
     </nav>
