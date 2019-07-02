@@ -16,7 +16,7 @@ if(isset($_POST["btn_login"])){
 //var_dump($row);
   if($row->useremail == $email && $row->password){
       $_SESSION["userid"] = $row->userid;
-      $_SESSION["name"] = $row->username;
+      $_SESSION["username"] = $row->username;
       $_SESSION["useremail"] = $row->useremail;
       $_SESSION["role"] = $row->role;
     //var_dump("Login Success");
