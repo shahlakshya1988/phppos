@@ -1,4 +1,29 @@
-<?php ob_start(); session_start(); $baseurl="http://localhost/phppos/inventorypos/"; ?>
+<?php 
+//ob_start();
+require "connect_db.php"; 
+if(isset($_POST["btn_login"])){
+  $email= trim($_POST["txt_email"]);
+  $password = trim($_POST["txt_password"]);
+  $get_user = $pdo->prepare("SELECT * FROM `tbl_user` WHERE `useremail` = :email and `password` = :password ");
+  $get_user->bindParam(":email",$email);
+  $get_user->bindParam(":password",$password);
+  $get_user->execute();
+   
+   // $get_user->rowCount() can be used in if statement
+
+  $row = $get_user->fetch(PDO::FETCH_OBJ);
+
+  if($row->useremail == $email && $row->password){
+    //var_dump("Login Success");
+    echo "Hello World";
+    header("refresh:0;dashboard.php");
+    die();
+  }else{
+    echo "Login Failure";
+  }
+}
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,29 +62,29 @@
   <div class="login-box-body">
     <p class="login-box-msg">Sign in to start your session</p>
 
-    <form action="<?php echo $baseurl; ?>" method="post">
+    <form action="<?php basename($_SERVER["PHP_SELF"]); ?>" method="post">
       <div class="form-group has-feedback">
-        <input type="email" class="form-control" placeholder="Email">
+        <input type="email" class="form-control" placeholder="Email" name="txt_email">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Password">
+        <input type="password" class="form-control" placeholder="Password" name="txt_password">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="row">
         <div class="col-xs-8">
-
+          <a href="#">I forgot my password</a><br>
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+          <button type="submit" class="btn btn-primary btn-block btn-flat" name="btn_login">Log In</button>
         </div>
         <!-- /.col -->
       </div>
     </form>
 
 
-    <a href="#">I forgot my password</a><br>
+   
 
   </div>
   <!-- /.login-box-body -->
