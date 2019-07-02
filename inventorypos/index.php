@@ -1,22 +1,28 @@
-<?php 
+<?php
 //ob_start();
-require "connect_db.php"; 
+require "connect_db.php";
 if(isset($_POST["btn_login"])){
   $email= trim($_POST["txt_email"]);
   $password = trim($_POST["txt_password"]);
+  //echo "<pre>",print_r($_POST),"</pre>";
   $get_user = $pdo->prepare("SELECT * FROM `tbl_user` WHERE `useremail` = :email and `password` = :password ");
   $get_user->bindParam(":email",$email);
   $get_user->bindParam(":password",$password);
   $get_user->execute();
-   
+
    // $get_user->rowCount() can be used in if statement
 
   $row = $get_user->fetch(PDO::FETCH_OBJ);
-
+//var_dump($row);
   if($row->useremail == $email && $row->password){
     //var_dump("Login Success");
-    echo "Hello World";
-    header("refresh:0;dashboard.php");
+    if($row->role=="Admin"){
+        // if the user is admin
+        header("refresh:0;dashboard.php");
+    }elseif($row->role=="User"){
+        // if it is normal user
+        header("refresh:0;user.php");
+    }
     die();
   }else{
     echo "Login Failure";
@@ -84,7 +90,7 @@ if(isset($_POST["btn_login"])){
     </form>
 
 
-   
+
 
   </div>
   <!-- /.login-box-body -->
