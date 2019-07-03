@@ -14,23 +14,27 @@ if(isset($_POST["btn_login"])){
 
   $row = $get_user->fetch(PDO::FETCH_OBJ);
 //var_dump($row);
-  if($row->useremail == $email && $row->password){
-      $_SESSION["userid"] = $row->userid;
-      $_SESSION["username"] = $row->username;
-      $_SESSION["useremail"] = $row->useremail;
-      $_SESSION["role"] = $row->role;
-    //var_dump("Login Success");
-    if($row->role=="Admin"){
-        // if the user is admin
-        header("refresh:0;dashboard.php");
-    }elseif($row->role=="User"){
-        // if it is normal user
-        header("refresh:0;user.php");
-    }
-    die();
+  if($get_user->rowCount()){
+      if($row->useremail == $email && $row->password){
+          $_SESSION["userid"] = $row->userid;
+          $_SESSION["username"] = $row->username;
+          $_SESSION["useremail"] = $row->useremail;
+          $_SESSION["role"] = $row->role;
+        //var_dump("Login Success");
+        if($row->role=="Admin"){
+            // if the user is admin
+            header("refresh:2;dashboard.php");
+        }elseif($row->role=="User"){
+            // if it is normal user
+            header("refresh:2;user.php");
+        }
+        $loginSuccess = "Login Successfull";
+        // die();
+
+      }
   }else{
-    echo "Login Failure";
-  }
+      $loginError = "Enter Valid Email, Password";
+    }
 }
 
 ?>
@@ -74,16 +78,16 @@ if(isset($_POST["btn_login"])){
 
     <form action="<?php basename($_SERVER["PHP_SELF"]); ?>" method="post">
       <div class="form-group has-feedback">
-        <input type="email" class="form-control" placeholder="Email" name="txt_email">
+        <input type="email" class="form-control" placeholder="Email" name="txt_email" required>
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Password" name="txt_password">
+        <input type="password" class="form-control" placeholder="Password" name="txt_password" required>
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="row">
         <div class="col-xs-8">
-          <a href="#">I forgot my password</a><br>
+          <a href="#" onclick="swal('To Get Password','Please Contact Admin/ServiceProvider','warning');" >I forgot my password</a><br>
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
@@ -107,6 +111,7 @@ if(isset($_POST["btn_login"])){
 <script src="<?php echo $baseurl; ?>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- iCheck -->
 <script src="<?php echo $baseurl; ?>plugins/iCheck/icheck.min.js"></script>
+<script src="<?php echo $baseurl; ?>bower_components/sweetalert/sweetalert.js"></script>
 <script>
   $(function () {
     $('input').iCheck({
@@ -115,6 +120,26 @@ if(isset($_POST["btn_login"])){
       increaseArea: '20%' /* optional */
     });
   });
+  <?php if(isset($loginSuccess,$_SESSION["username"]) && !empty($loginSuccess) && !empty($_SESSION["username"])){ ?>
+    swal({
+      title: "<?php echo $loginSuccess." ".$_SESSION["username"]; ?>",
+      text: "Loading",
+      icon: "success",
+      buttons: false
+    });
+  <?php } ?>  
+  <?php if(isset($loginError)){ ?>
+    swal({
+      title: "<?php echo $loginError; ?>",
+      text: " ",
+      icon: "error",
+      button: "Ok",
+     showCancelButton: false,
+  showConfirmButton: false
+    });
+
+
+  <?php } ?>
 </script>
 </body>
 </html>
