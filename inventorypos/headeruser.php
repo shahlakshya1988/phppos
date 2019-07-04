@@ -1,6 +1,6 @@
 <?php
     require "connect_db.php";
-    if(!isset($_SESSION["useremail"])){
+    if(!isset($_SESSION["useremail"]) || $_SESSION["role"]=="Admin"){
         header("refresh:0;index.php");
         die();
     }
