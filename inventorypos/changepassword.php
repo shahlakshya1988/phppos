@@ -1,4 +1,34 @@
-<?php require_once "./header.php"; ?>
+<?php require_once "./header.php"; 
+  if(isset($_POST["btnupdate"])){
+    $oldpassword = trim($_POST["txtoldpassword"]);
+    $newpassword = trim($_POST["txtnewpassword"]);
+    $confirmpassword = trim($_POST["txtconfirmpassword"]);
+    // echo "<pre>",print_r($_POST),"</pre>";
+    $select_user = $pdo->prepare("SELECT * from `tbl_user` where `useremail`=:useremail and `password` = :oldpassword");
+
+    $select_user ->bindParam(":useremail",$_SESSION["useremail"]);
+    $select_user -> bindParam(":oldpassword",$oldpassword);
+    $select_user -> execute();
+    // var_dump("I am here");
+    // var_dump($select_user->rowCount());
+    if($select_user->rowCount()){
+        $row = $select_user->fetch(PDO::FETCH_OBJ);
+        // var_dump($row);
+        $userid = $row->userid;
+        if($newpassword == $confirmpassword){
+          $update_user = $pdo->prepare("UPDATE `tbl_user` SET `password`=:newpassword where `userid`=:userid");
+          $update_user->bindParam(":newpassword",$newpassword);
+          $update_user->bindParam(":userid",$userid);
+          $update_user->execute();
+          echo $update_user->rowCount();
+          die();
+        }
+    }else{
+
+    }
+
+  }
+?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
