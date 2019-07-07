@@ -20,11 +20,70 @@
           $update_user->bindParam(":newpassword",$newpassword);
           $update_user->bindParam(":userid",$userid);
           $update_user->execute();
-          echo $update_user->rowCount();
-          die();
+         /* if($update_user->rowCount()){ */
+             if($update_user->execute()){
+              ?>
+              <script>
+                window.addEventListener("load",showSweetAlert);
+                function showSweetAlert(){
+                    swal({
+                        title:"Success",
+                        text:"Password Updated Successfully, You will be Logout. Please Login Again",
+                        icon:"success",
+                        showConfirmButton:false,
+                        showCancelButton:false
+                    });
+                }
+              </script>
+
+              <?php 
+              header("refresh:2;logout.php");
+          }else{
+              ?>
+              <script type="text/javascript">
+                window.addEvenListener("load",showSweetAlert);
+                function showSweetAlert(){
+                    swal({
+                        title:"Operation Failed",
+                        text:"Please Try After Some Time",
+                        icon:"error",
+                        button:"Try Again"
+                    });
+                }
+              </script>
+              <?php 
+          }
+        }else{
+            //echo "Please Enter New Password and Confirm Password";
+            ?>
+            <script>
+                window.addEventListener("load",showSweetAlert);
+                function showSweetAlert(){
+                    swal({
+                        title:"Password Don't Match",
+                        text:"New Password and Confirm Password Should Be Same",
+                        icon:"error",
+                        button: "Retry"
+                    });
+                }
+            </script>
+            <?php 
         }
     }else{
-
+        //echo "Enter Correct Old Password";
+        ?>
+        <script type="text/javascript">
+            window.addEventListener("load", showSweetAlert);
+            function showSweetAlert(){
+                swal({
+                    title: "Old Passwrod Error",
+                    text: "Enter Correct Old Password",
+                    icon: "error",
+                    button: "Retry",
+                });
+            }
+        </script>
+        <?php 
     }
 
   }
@@ -62,15 +121,15 @@
                   
                   <div class="form-group">
                     <label for="oldpassword">Old Password</label>
-                    <input type="text" class="form-control" id="oldpassword" placeholder="Old Password" name="txtoldpassword">
+                    <input type="text" class="form-control" id="oldpassword" placeholder="Old Password" name="txtoldpassword" required>
                   </div>
                   <div class="form-group">
                     <label for="newpassword">New Password</label>
-                    <input type="password" class="form-control" id="newpassword" placeholder="New Password" name="txtnewpassword">
+                    <input type="password" class="form-control" id="newpassword" placeholder="New Password" name="txtnewpassword" required>
                   </div>
                   <div class="form-group">
                     <label for="newpassword1">Confirm Password</label>
-                    <input type="password" class="form-control" id="newpassword1" placeholder="Confirm Password" name="txtconfirmpassword">
+                    <input type="password" class="form-control" id="newpassword1" placeholder="Confirm Password" name="txtconfirmpassword" required>
                   </div>
                   
                   
