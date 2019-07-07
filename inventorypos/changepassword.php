@@ -1,4 +1,13 @@
-<?php require_once "./header.php"; 
+<?php
+if(session_status()==PHP_SESSION_NONE){
+    session_start(); 
+}
+
+if($_SESSION["role"]=="User" ){
+    require_once "./headeruser.php";
+}elseif( $_SESSION["role"]=="Admin" ){
+    require_once "./header.php"; 
+}
   if(isset($_POST["btnupdate"])){
     $oldpassword = trim($_POST["txtoldpassword"]);
     $newpassword = trim($_POST["txtnewpassword"]);
