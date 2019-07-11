@@ -6,16 +6,65 @@ if(isset($_POST["btnAddUser"])){
     $password= trim($_POST["password"]);
     $role= trim($_POST["txtSelect_option"]);
 
-    $insert = $pdo->prepare("INSERT INTO `tbl_user` (`username`,`useremail`,`password`,`role`) values(:username,:useremail,:password,:role)");
-    $insert->bindParam(":username",$txtname);
-    $insert->bindParam(":useremail",$txtemail);
-    $insert->bindParam(":password",$password);
-    $insert->bindParam(":role",$role);
-    if($insert->execute()){
-        echo "Registration Successfull";
+    // select email from database
+    $sel_email = $pdo->prepare("SELECT * FROM `tbl_user` where `useremail` = :useremail");
+    $sel_email->bindParam(":useremail",$txtemail);
+    $sel_email->execute();
+    if(!$sel_email->rowCount()){
+
+        
+
+        $insert = $pdo->prepare("INSERT INTO `tbl_user` (`username`,`useremail`,`password`,`role`) values(:username,:useremail,:password,:role)");
+        $insert->bindParam(":username",$txtname);
+        $insert->bindParam(":useremail",$txtemail);
+        $insert->bindParam(":password",$password);
+        $insert->bindParam(":role",$role);
+        if($insert->execute()){
+            ?>
+            <script>
+                window.addEventListener("load",function(){
+                    swal({
+                        title:"Registration Successfull",
+                        text:"<?php echo $txtname; ?> Has Been Registered",
+                        icon:"success",
+                        button:false,
+                    });
+                });
+            </script>
+            
+            <?php
+        }else{
+            ?>
+             <script>
+                 window.addEventListener("load",function(){
+                    swal({
+                        title:"Registration Unsuccessful",
+                        text:"Please Try Again Later",
+                        icon:"warning",
+                        button:"ok"
+                    });
+                 });
+             </script>
+            <?php 
+            //echo "Registration Unsuccessfull";
+        }
     }else{
-        echo "Registration Unsuccessfull";
+       ?>
+       <script>
+           window.addEventListener("load",function(){
+              swal({
+                  title:"User Email Already Exists",
+                  text:"Please Try Again With Other Email Address",
+                  icon:"warning",
+                  button:"ok"
+              });
+           });
+       </script>
+       <?php 
     }
+    // select email from database
+    header("refresh:3;registration.php");
+
 }
 ?>
 <!-- Content Wrapper. Contains page content -->
