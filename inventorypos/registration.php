@@ -183,7 +183,7 @@ if (isset($_POST["btnAddUser"])) {
                         </table>
                     </div>
 
-
+                    <div class="clearfix"></div>
 
                 </div>
                 <!-- /.box-body -->
