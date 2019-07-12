@@ -107,12 +107,20 @@ if (isset($_POST["btnAddCategory"])) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>CategoryId</td>
-                                            <td>Category</td>
-                                            <td>Edit</td>
-                                            <td>Delete</td>
-                                        </tr>
+                                        <?php
+                                        $get_category = $pdo->prepare("SELECT * FROM `tbl_category` order by `catid` DESC");
+                                        $get_category->execute();
+                                        //var_dump($get_category);
+                                        while ($row = $get_category->fetch(PDO::FETCH_OBJ)) {
+                                          echo "<tr>";
+                                                   echo "<td>{$row->catid}</td>";
+                                                   echo "<td>{$row->category}</td>";
+                                                   echo "<td><a href='category.php?catid={$row->catid}' class='btn btn-primary'>Edit</a></td>";
+                                                   echo "<td><a href='category.php?del={$row->catid}' class='btn btn-danger'>Delete</a></td> ";
+                                            echo "</tr>";
+                                        }
+                                        ?>
+
                                     </tbody>
                                     <tfoot>
                                         <tr>
