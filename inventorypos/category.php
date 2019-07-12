@@ -1,4 +1,61 @@
 <?php require_once "./header.php"; ?>
+<?php
+if (isset($_POST["btnAddCategory"])) {
+    $category = trim($_POST["txtcategory"]);
+    if (!empty($category)) {
+        $insert = $pdo->prepare("INSERT INTO `tbl_category` (`category`) values (:category)");
+        $insert->bindParam(":category", $category);
+        $insert->execute();
+        if ($insert->rowCount()) {
+            echo "Category Inserted Successfully";
+            ?>
+            <script type="text/javascript">
+                window.addEventListener("load", function() {
+                    swal({
+                        title: "Category Inserted Successfully",
+                        text: "<?php echo $category ?>, Has Been Inserted",
+                        icon: "success",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        buttons: false
+                    });
+                });
+            </script>
+        <?php
+        } else {
+            ?>
+            <script>
+                window.addEventListener("load", function() {
+                    swal({
+                        title: "Error",
+                        text: "Category Insertion Failed",
+                        icon: "error",
+                        showConfirmButton: false,
+                        showCancelButton: false,
+                        buttons: false
+                    });
+                });
+            </script>
+
+        <?php
+        }
+        header("refresh:3,category.php");
+    } else {
+        ?>
+        <script>
+            window.addEventListener("load", function() {
+                swal({
+                    title: "Category Empty",
+                    text: "Category Name Can't Be Empty",
+                    icon: "warning",
+                    button: "Continue"
+                });
+            });
+        </script>
+    <?php
+    }
+}
+?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -31,9 +88,9 @@
                                     <label for="category">Category</label>
                                     <input type="text" class="form-control" id="category" placeholder="Enter category" name="txtcategory" required>
                                 </div>
-                                
-                                
-                                
+
+
+
                                 <div class="form-group">
                                     <button type="submit" name="btnAddCategory" class="btn btn-warning">Add Category</button>
                                 </div>
