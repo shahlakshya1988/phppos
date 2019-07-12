@@ -1,5 +1,27 @@
 <?php require_once "./header.php"; ?>
 <?php
+if(isset($_GET["del"])){
+    $userid = trim($_GET["del"]);
+    $delete = $pdo->prepare("DELETE FROM `tbl_user` where userid=:userid LIMIT 1");
+    $delete->bindParam(":userid",$userid);
+    $delete->execute();
+    //var_dump($delete);
+    if($delete->rowCount()){
+        ?>
+            <script>
+                window.addEventListener("load",function(){
+                    swal({
+                                        title:"Delete Successfull",
+                                        text:"User Has Been Delete From The System",
+                                        icon:"success",
+                                        button:"Ok",
+                                    });
+                });
+            </script>
+        <?php 
+    }
+    header("refresh:3;registration.php");
+}
 if(isset($_POST["btnAddUser"])){
     $txtname= trim($_POST["txtname"]);
     $txtemail= trim($_POST["txtemail"]);
@@ -131,6 +153,7 @@ if(isset($_POST["btnAddUser"])){
                                     <th>Email</th>
                                     <th>Password</th>
                                     <th>Role</th>
+                                    <th>Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -144,6 +167,7 @@ if(isset($_POST["btnAddUser"])){
                                         echo "<td>$row->useremail</td>";
                                         echo "<td>$row->password</td>";
                                         echo "<td>$row->role</td>";
+                                        echo "<td> <a href='registration.php?del={$row->userid}' role='button' class='btn btn-danger'> Delete </a> </td>";
                                     echo "</tr>";
                                 }
                                 ?>
