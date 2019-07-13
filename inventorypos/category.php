@@ -1,5 +1,6 @@
 <?php require_once "./header.php"; ?>
 <?php
+
 if (isset($_POST["btnAddCategory"])) {
     $category = trim($_POST["txtcategory"]);
     if (!empty($category)) {
@@ -84,16 +85,40 @@ if (isset($_POST["btnAddCategory"])) {
                     <form role="form" action="" method="POST">
                         <div class="box-body">
                             <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="category">Category</label>
-                                    <input type="text" class="form-control" id="category" placeholder="Enter category" name="txtcategory" required>
-                                </div>
+                                <?php
+                                if (isset($_POST["btnEdit"])) {
+                                    $catid = trim($_POST["btnEdit"]);
+                                    $get_cat = $pdo->prepare("SELECT * FROM `tbl_category` where `catid`= :catid");
+                                    $get_cat->bindParam(":catid", $catid);
+                                    $get_cat->execute();
+                                    $rowCat = $get_cat->fetch(PDO::FETCH_OBJ);
+                                    ?>
+                                    <div class="form-group">
+                                        <label for="category">Category</label>
+                                        <input type="hidden" name="txtidd" value="<?php echo $rowCat->catid; ?>">
+                                        <input type="text" class="form-control" id="category" placeholder="Enter category" name="txtcategory" value="<?php echo $rowCat->category; ?>">
+                                    </div>
 
 
 
-                                <div class="form-group">
-                                    <button type="submit" name="btnAddCategory" class="btn btn-warning">Add Category</button>
-                                </div>
+                                    <div class="form-group">
+                                        <button type="submit" name="btnEditCategory" class="btn btn-info">Update Category</button>
+                                    </div>
+                                <?php
+                                } else { ?>
+
+                                    <div class="form-group">
+                                        <label for="category">Category</label>
+                                        <input type="text" class="form-control" id="category" placeholder="Enter category" name="txtcategory">
+                                    </div>
+
+
+
+                                    <div class="form-group">
+                                        <button type="submit" name="btnAddCategory" class="btn btn-warning">Add Category</button>
+                                    </div>
+                                <?php }   ?>
+
 
                             </div>
                             <div class="col-md-8">
@@ -112,11 +137,13 @@ if (isset($_POST["btnAddCategory"])) {
                                         $get_category->execute();
                                         //var_dump($get_category);
                                         while ($row = $get_category->fetch(PDO::FETCH_OBJ)) {
-                                          echo "<tr>";
-                                                   echo "<td>{$row->catid}</td>";
-                                                   echo "<td>{$row->category}</td>";
-                                                   echo "<td><a href='category.php?catid={$row->catid}' class='btn btn-primary'>Edit</a></td>";
-                                                   echo "<td><a href='category.php?del={$row->catid}' class='btn btn-danger'>Delete</a></td> ";
+                                            echo "<tr>";
+                                            echo "<td>{$row->catid}</td>";
+                                            echo "<td>{$row->category}</td>";
+                                            //echo "<td><a href='category.php?catid={$row->catid}' class='btn btn-primary'>Edit</a></td>";
+                                            echo "<td><button type='submit' name='btnEdit' value='{$row->catid}'  class='btn btn-primary'>Edit</button></td>";
+                                            // echo "<td><a href='category.php?del={$row->catid}' class='btn btn-danger'>Delete</a></td> ";
+                                            echo "<td><button type='submit' name='btnDelete' value='{$row->catid}' class='btn btn-danger'>Delete</button></td>";
                                             echo "</tr>";
                                         }
                                         ?>
