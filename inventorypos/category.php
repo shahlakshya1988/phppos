@@ -1,5 +1,41 @@
 <?php require_once "./header.php"; ?>
 <?php
+if (isset($_POST["btnDelete"])) {
+    $catid = trim($_POST["btnDelete"]);
+    $delete_cat = $pdo->prepare("DELETE FROM `tbl_category` where `catid` = :catid LIMIT 1");
+    $delete_cat->bindParam(":catid", $catid);
+    $delete_cat->execute();
+    if ($delete_cat->execute()) {
+        ?>
+        <script>
+            window.addEventListener("load", function() {
+                swal({
+                    text: "Category Deleted",
+                    title: "Category Deleted Succesfully",
+                    icon: "success",
+                    showCancelButton: false,
+                    showConfirmButton: false,
+                    button: false
+                });
+            });
+        </script>
+        <?php
+        header("refresh:3;category.php");
+    } else {
+        ?>
+        <script>
+            window.addEventListener("load", function() {
+                swal({
+                    title: "Error",
+                    text: "Error, Category Can't Be Deleted",
+                    icon: "error",
+                    button: "Ok"
+                });
+            });
+        </script>
+    <?php
+    }
+}
 if (isset($_POST["btnEditCategory"])) {
     $catid = trim($_POST["txtid"]);
     $category = trim($_POST["txtcategory"]);
@@ -24,7 +60,23 @@ if (isset($_POST["btnEditCategory"])) {
             </script>
 
         <?php
+        } else {
+            ?>
+            <script>
+                window.addEventListener("load", function() {
+                    swal({
+                        title: "Update Operation Failed",
+                        text: "Error In Updating, category",
+                        icon: "warning",
+                        showconfirmButton: false,
+                        showCancelButton: false,
+                        button: false
+                    });
+                });
+            </script>
+        <?php
         }
+        header("refresh:3;category.php");
     } else {
         ?>
         <script>
