@@ -1,6 +1,45 @@
 <?php require_once "./header.php"; ?>
 <?php
+if (isset($_POST["btnEditCategory"])) {
+    $catid = trim($_POST["txtid"]);
+    $category = trim($_POST["txtcategory"]);
+    if (!empty($category)) {
+        $update = $pdo->prepare("UPDATE `tbl_category` SET `category`=:category  where `catid`=:catid LIMIT 1");
+        $update->bindParam(":category", $category);
+        $update->bindParam(":catid", $catid);
 
+        if ($update->execute()) {
+            ?>
+            <script>
+                window.addEventListener("load", function() {
+                    swal({
+                        title: "Update Successful",
+                        text: "Category Updated Successfully",
+                        icon: "success",
+                        showConfirmButton: false,
+                        showCancelButton: false,
+                        button: false
+                    });
+                });
+            </script>
+
+        <?php
+        }
+    } else {
+        ?>
+        <script>
+            window.addEventListener("load", function() {
+                swal({
+                    title: "Category Name Erorr!",
+                    text: "Category Name Can't Be Blank",
+                    icon: "error",
+                    button: "Try Again"
+                });
+            });
+        </script>
+    <?php
+    }
+}
 if (isset($_POST["btnAddCategory"])) {
     $category = trim($_POST["txtcategory"]);
     if (!empty($category)) {
@@ -95,7 +134,7 @@ if (isset($_POST["btnAddCategory"])) {
                                     ?>
                                     <div class="form-group">
                                         <label for="category">Category</label>
-                                        <input type="hidden" name="txtidd" value="<?php echo $rowCat->catid; ?>">
+                                        <input type="hidden" name="txtid" value="<?php echo $rowCat->catid; ?>">
                                         <input type="text" class="form-control" id="category" placeholder="Enter category" name="txtcategory" value="<?php echo $rowCat->category; ?>">
                                     </div>
 
