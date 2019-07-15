@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.0.1
+-- version 4.8.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 12, 2019 at 05:40 AM
--- Server version: 5.7.14
--- PHP Version: 5.6.25
+-- Generation Time: Jul 15, 2019 at 03:20 PM
+-- Server version: 5.7.24
+-- PHP Version: 7.3.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -21,8 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `pos_db`
 --
-CREATE DATABASE IF NOT EXISTS `pos_db` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `pos_db`;
 
 -- --------------------------------------------------------
 
@@ -35,6 +33,32 @@ CREATE TABLE IF NOT EXISTS `tbl_category` (
   `catid` int(255) NOT NULL AUTO_INCREMENT,
   `category` varchar(255) NOT NULL,
   PRIMARY KEY (`catid`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_category`
+--
+
+INSERT INTO `tbl_category` (`catid`, `category`) VALUES
+(2, 'Mobile');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_product`
+--
+
+DROP TABLE IF EXISTS `tbl_product`;
+CREATE TABLE IF NOT EXISTS `tbl_product` (
+  `productid` int(255) NOT NULL AUTO_INCREMENT,
+  `productname` varchar(255) NOT NULL,
+  `productcategory` varchar(255) NOT NULL,
+  `purchaseprice` float NOT NULL,
+  `sellprice` float NOT NULL,
+  `stock` int(255) NOT NULL,
+  `description` text NOT NULL,
+  `produciImage` varchar(255) NOT NULL,
+  PRIMARY KEY (`productid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------

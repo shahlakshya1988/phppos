@@ -22,9 +22,9 @@
 
         <div class="row">
             <div class="col-md-12">
-                <div class="box box-success">
+                <div class="box box-info">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Add Product Form</h3>
+                        <h3 class="box-title"><a href="productlist.php" class="btn btn-primary" role="button">Back To List</a></h3>
                     </div>
                     <!-- /.box-header -->
 
@@ -36,8 +36,8 @@
                                     <input type="text" class="form-control" id="productName" placeholder="Enter Product Name" name="productName" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="selectCategory">Select Category</label>
-                                    <select class="form-control" name="selectCategory" id="selectCategory" required>
+                                    <label for="productcategory">Select Category</label>
+                                    <select class="form-control" name="productcategory" id="productcategory" required>
                                         <option value="" disabled selected>Select Product Category</option>
                                         <?php
                                         $get_category = $pdo->prepare("SELECT * FROM `tbl_category` order by `catid` DESC");
@@ -76,6 +76,10 @@
                         </form>
                     </div>
                     <!-- div.box-body -->
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-info" name="btnAddProduct">Add Product</button>
+                        
+                    </div>
                 </div> <!-- div.box.box-warning -->
             </div>
         </div>
