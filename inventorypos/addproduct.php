@@ -1,4 +1,53 @@
 <?php require_once "./header.php"; ?>
+<?php
+$allowed_type=["image/jpg","image/jpeg","image/gif","image/png"];
+$allowed_ext = ["png","jpg","jpeg","gif"];
+$allowed_size=10485760; 
+if(isset($_POST["btnAddProduct"])){
+    echo "<pre>",print_r($_REQUEST),"</PRE>";
+    $productname = trim($_POST["productName"]);
+    $productcategory = trim($_POST["productcategory"]);
+    $purchaseprice = trim($_POST["purchasePrice"]);
+    $sellprice = trim($_POST["sellPrice"]);
+    $stock = trim($_POST["stock"]);
+    $description = trim($_POST["productDescription"]);
+    
+    $name = $_FILES["productImage"]["name"];
+    $ext = explode(".",$name);
+    $ext = strtolower(end($ext));
+    $type = $_FILES["productImage"]["type"];
+    $tmp_name = $_FILES["productImage"]["tmp_name"];
+    $size = $_FILES["productImage"]["size"];
+    $error = $_FILES["productImage"]["error"];
+    $newname = uniqid("",true).".".$ext;
+    $storefile = "uploads/".$newname;
+
+    if(in_array($type,$allowed_type) && in_array($ext,$allowed_ext) && $size<=$allowed_size){
+        if(move_uploaded_file($tmp_name,$storefile)){
+            $insert = $pdo->prepare("INSERT INTO `tbl_product` (`productname`,`productcategory`,`purchaseprice`,`sellprice`,`stock`,`description`,`produciImage`) values (:productname,:productcategory,:purchaseprice,:sellprice,:stock,:description,:newname)");
+            $insert->bindParam(":productname",$productname);
+            $insert->bindParam(":productcategory",$productcategory);
+            $insert->bindParam(":purchaseprice",$purchaseprice);
+            $insert->bindParam(":sellprice",$sellprice);
+            $insert->bindParam(":stock",$stock);
+            $insert->bindParam(":description",$description);
+            $insert->bindParam(":newname",$newname);
+            $insert->execute();
+            if($insert->rowCount()){
+                ?>
+                <script type="text/javascript">
+                    
+                </script>
+                <?php 
+            }else{
+
+            }
+        }
+    }
+
+
+}
+?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -73,13 +122,14 @@
                                     <input type="file" name="productImage" id="productImage" placeholder="Upload Product Image" class="form-control" accept="image/*">
                                 </div>
                             </div><!-- div.col-md-6 -->
+                                <div class="box-footer">
+                            <button type="submit" class="btn btn-info" name="btnAddProduct">Add Product</button>
+                            
+                        </div>
                         </form>
                     </div>
                     <!-- div.box-body -->
-                    <div class="box-footer">
-                        <button type="submit" class="btn btn-info" name="btnAddProduct">Add Product</button>
-                        
-                    </div>
+                   
                 </div> <!-- div.box.box-warning -->
             </div>
         </div>
