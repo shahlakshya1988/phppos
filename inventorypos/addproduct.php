@@ -29,7 +29,7 @@
                     <!-- /.box-header -->
 
                     <div class="box-body">
-                        <form action="" name="fromProduct" method="post">
+                        <form action="" name="fromProduct" method="post" enctype="multipart/form-data">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="productName">Product Name</label>
@@ -50,23 +50,27 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="purchasePrice">Purchase Price</label>
-                                    <input type="text" class="form-control" id="purchasePrice" placeholder="Enter Product Purchase Price" name="purchasePrice" required>
+                                    <input type="number" min="1" step="1" class="form-control" id="purchasePrice" placeholder="Enter Product Purchase Price" name="purchasePrice" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="sellPrice">Sell Price</label>
-                                    <input type="text" class="form-control" id="sellPrice" placeholder="Enter Product Sell Price" name="sellPrice" required>
+                                    <input type="number" min="1" step="1" class="form-control" id="sellPrice" placeholder="Enter Product Sell Price" name="sellPrice" required>
                                 </div>
                             </div> <!-- div.col-md-6 -->
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="stock">Stock</label>
-                                    <input type="text" class="form-control" id="stock" placeholder="Enter Product Stock" name="stock" required>
+                                    <input type="number" min="1" step="1" class="form-control" id="stock" placeholder="Enter Product Stock" name="stock" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="productDescription">Product Description</label>
 
                                     <textarea name="productDescription" id="productDescription" class="form-control" placeholder="Enter Product Description">
                                     </textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="productImage">Product Image</label>
+                                    <input type="file" name="productImage" id="productImage" placeholder="Upload Product Image" class="form-control" accept="image/*">
                                 </div>
                             </div><!-- div.col-md-6 -->
                         </form>
