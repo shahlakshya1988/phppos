@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 15, 2019 at 03:20 PM
+-- Generation Time: Jul 16, 2019 at 02:46 AM
 -- Server version: 5.7.24
 -- PHP Version: 7.3.1
 
@@ -57,9 +57,19 @@ CREATE TABLE IF NOT EXISTS `tbl_product` (
   `sellprice` float NOT NULL,
   `stock` int(255) NOT NULL,
   `description` text NOT NULL,
-  `produciImage` varchar(255) NOT NULL,
+  `productimage` varchar(255) NOT NULL,
   PRIMARY KEY (`productid`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_product`
+--
+
+INSERT INTO `tbl_product` (`productid`, `productname`, `productcategory`, `purchaseprice`, `sellprice`, `stock`, `description`, `productimage`) VALUES
+(1, 'SDAFDSF', '2', 234, 234, 23423, '', '5d2cb68d05b907.07454732.png'),
+(2, 'SDAFDSF', '2', 234, 234, 23423, '', '5d2cb6afc73e27.63758642.png'),
+(3, 'SDAFDSF', '2', 124, 12413400, 234, 'dsfdsfsdafdsf', '5d2cb6c38404d1.83385841.png'),
+(4, 'SDAFDSF', '2', 124, 12413400, 234, 'dsfdsfsdafdsf', '5d2cb6d1e21c99.61986231.png');
 
 -- --------------------------------------------------------
 

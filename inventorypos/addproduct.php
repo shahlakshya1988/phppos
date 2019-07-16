@@ -24,7 +24,7 @@ if (isset($_POST["btnAddProduct"])) {
 
     if (in_array($type, $allowed_type) && in_array($ext, $allowed_ext) && $size <= $allowed_size) {
         if (move_uploaded_file($tmp_name, $storefile)) {
-            $insert = $pdo->prepare("INSERT INTO `tbl_product` (`productname`,`productcategory`,`purchaseprice`,`sellprice`,`stock`,`description`,`produciImage`) values (:productname,:productcategory,:purchaseprice,:sellprice,:stock,:description,:newname)");
+            $insert = $pdo->prepare("INSERT INTO `tbl_product` (`productname`,`productcategory`,`purchaseprice`,`sellprice`,`stock`,`description`,`productimage`) values (:productname,:productcategory,:purchaseprice,:sellprice,:stock,:description,:newname)");
             $insert->bindParam(":productname", $productname);
             $insert->bindParam(":productcategory", $productcategory);
             $insert->bindParam(":purchaseprice", $purchaseprice);
