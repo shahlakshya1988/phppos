@@ -1,51 +1,101 @@
 <?php require_once "./header.php"; ?>
 <?php
-$allowed_type=["image/jpg","image/jpeg","image/gif","image/png"];
-$allowed_ext = ["png","jpg","jpeg","gif"];
-$allowed_size=10485760; 
-if(isset($_POST["btnAddProduct"])){
-    echo "<pre>",print_r($_REQUEST),"</PRE>";
+$allowed_type = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
+$allowed_ext = ["png", "jpg", "jpeg", "gif"];
+$allowed_size = 10485760;
+if (isset($_POST["btnAddProduct"])) {
+    //echo "<pre>", print_r($_REQUEST), "</PRE>";
     $productname = trim($_POST["productName"]);
     $productcategory = trim($_POST["productcategory"]);
     $purchaseprice = trim($_POST["purchasePrice"]);
     $sellprice = trim($_POST["sellPrice"]);
     $stock = trim($_POST["stock"]);
     $description = trim($_POST["productDescription"]);
-    
+
     $name = $_FILES["productImage"]["name"];
-    $ext = explode(".",$name);
+    $ext = explode(".", $name);
     $ext = strtolower(end($ext));
     $type = $_FILES["productImage"]["type"];
     $tmp_name = $_FILES["productImage"]["tmp_name"];
     $size = $_FILES["productImage"]["size"];
     $error = $_FILES["productImage"]["error"];
-    $newname = uniqid("",true).".".$ext;
-    $storefile = "uploads/".$newname;
+    $newname = uniqid("", true) . "." . $ext;
+    $storefile = "uploads/" . $newname;
 
-    if(in_array($type,$allowed_type) && in_array($ext,$allowed_ext) && $size<=$allowed_size){
-        if(move_uploaded_file($tmp_name,$storefile)){
+    if (in_array($type, $allowed_type) && in_array($ext, $allowed_ext) && $size <= $allowed_size) {
+        if (move_uploaded_file($tmp_name, $storefile)) {
             $insert = $pdo->prepare("INSERT INTO `tbl_product` (`productname`,`productcategory`,`purchaseprice`,`sellprice`,`stock`,`description`,`produciImage`) values (:productname,:productcategory,:purchaseprice,:sellprice,:stock,:description,:newname)");
-            $insert->bindParam(":productname",$productname);
-            $insert->bindParam(":productcategory",$productcategory);
-            $insert->bindParam(":purchaseprice",$purchaseprice);
-            $insert->bindParam(":sellprice",$sellprice);
-            $insert->bindParam(":stock",$stock);
-            $insert->bindParam(":description",$description);
-            $insert->bindParam(":newname",$newname);
+            $insert->bindParam(":productname", $productname);
+            $insert->bindParam(":productcategory", $productcategory);
+            $insert->bindParam(":purchaseprice", $purchaseprice);
+            $insert->bindParam(":sellprice", $sellprice);
+            $insert->bindParam(":stock", $stock);
+            $insert->bindParam(":description", $description);
+            $insert->bindParam(":newname", $newname);
             $insert->execute();
-            if($insert->rowCount()){
+            if ($insert->rowCount()) {
                 ?>
                 <script type="text/javascript">
-                    
+                    window.addEventListener("load", function() {
+                        swal({
+                            title: "Product Added",
+                            text: "<?php echo $productname ?> Has Been Added Successfully",
+                            icon: "success",
+                            showConfirmButton: false,
+                            showCancelButton: false,
+                            button: false
+                        });
+                    });
                 </script>
-                <?php 
-            }else{
+                <?php
+                header("refresh:4;addproduct.php");
+            } else {
+                ?>
+                <script type="text/javascript">
+                    window.addEventListener("load", function() {
+                        swal({
+                            title: "Operation Failed",
+                            text: "Product Can't Be Added",
+                            icon: "error",
+                            button: "Ok"
 
+                        });
+                    });
+                </script>
+            <?php
             }
         }
+    } else {
+        if (!in_array($type, $allowed_type) || !in_array($ext, $allowed_ext)) {
+            ?>
+            <script>
+                window.addEventListener("load", function() {
+                    swal({
+                        title: "Please Upload Image Of Proper Format",
+                        text: "Image can only be of gif, jpeg, jpg, png format only",
+                        icon: "error",
+                        button: "Ok"
+                    });
+                });
+            </script>
+        <?php
+        }
+
+        if ($size > $allowed_size) {
+            ?>
+            <script>
+                window.addEventListener("load", function() {
+                    swal({
+                        title: "Image Size Error!",
+                        text: "Please upload Image of Proper size Under 9 MB",
+                        icon: "error",
+                        button: "ok"
+                    });
+                });
+            </script>
+        <?php
+        }
     }
-
-
 }
 ?>
 <!-- Content Wrapper. Contains page content -->
@@ -113,23 +163,22 @@ if(isset($_POST["btnAddProduct"])){
                                 </div>
                                 <div class="form-group">
                                     <label for="productDescription">Product Description</label>
-
-                                    <textarea name="productDescription" id="productDescription" class="form-control" placeholder="Enter Product Description">
-                                    </textarea>
+                                    <textarea name="productDescription" id="productDescription" class="form-control" placeholder="Enter Product Description" required></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="productImage">Product Image</label>
-                                    <input type="file" name="productImage" id="productImage" placeholder="Upload Product Image" class="form-control" accept="image/*">
+                                    <input type="file" name="productImage" id="productImage" placeholder="Upload Product Image" class="form-control" accept="image/*" required>
                                 </div>
                             </div><!-- div.col-md-6 -->
-                                <div class="box-footer">
-                            <button type="submit" class="btn btn-info" name="btnAddProduct">Add Product</button>
-                            
-                        </div>
+                            <div class="clearfix"></div>
+                            <div class="box-footer">
+                                <button type="submit" class="btn btn-info" name="btnAddProduct">Add Product</button>
+
+                            </div>
                         </form>
                     </div>
                     <!-- div.box-body -->
-                   
+
                 </div> <!-- div.box.box-warning -->
             </div>
         </div>
