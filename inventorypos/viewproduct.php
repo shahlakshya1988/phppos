@@ -31,7 +31,7 @@ if (isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
     <section class="content container-fluid">
       <div class="box box-warning">
         <div class="box-header with-border">
-            <h3 class="box-title">View Product</h3>
+            <h3 class="box-title"> <a href="productlist.php" class="btn btn-primary" role="button">Back To Product List</a> </h3>
         </div> <!-- div.box-header -->
         <div class="box-body">
                <?php while ($resultProduct = $getProduct->fetch(PDO::FETCH_OBJ)) {
@@ -43,25 +43,23 @@ if (isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
 				 // var_dump($resultCategory);
 				   
 	echo '
-                 <div class="col-md-6">
+                 <div class="col-md-6" style="font-size:larger">
                  <center><p class="list-group-item list-group-item-success"><strong>Product</strong></p></center>
                     <ul class="list-group">
-                        <li class="list-group-item">ID <span class="label label-info pull-right">' . $resultProduct->productid . '</span></li>
+                        <li class="list-group-item">ID <span class="label label-primary pull-right">' . $resultProduct->productid . '</span></li>
                         <li class="list-group-item">Product Name <span class="label label-info pull-right">' . $resultProduct->productname . '</span></li>
                         <li class="list-group-item">Category <span class="label label-info pull-right">'.$resultCategory->category.'</span></li>
-						<li class="list-group-item">Purchase Price <span class="label label-info pull-right">'.$resultProduct->purchaseprice.'</span></li>
-						<li class="list-group-item">Selling Price <span class="label label-info pull-right">'.$resultProduct->sellprice.'</span></li>
-						<li class="list-group-item">Product Profit <span class="label label-info pull-right">'.($resultProduct->sellprice - $resultProduct->purchaseprice ).'</span></li>
-						<li class="list-group-item">Stock <span class="label label-info pull-right">'.$resultProduct->stock.'</span></li>
-						<li class="list-group-item">Description <span class="label label-info pull-right">'.$resultProduct->description.'</span></li>
+						<li class="list-group-item">Purchase Price <span class="label label-warning pull-right">'.$resultProduct->purchaseprice.'</span></li>
+						<li class="list-group-item">Selling Price <span class="label label-warning pull-right">'.$resultProduct->sellprice.'</span></li>
+						<li class="list-group-item">Product Profit <span class="label label-success pull-right">'.($resultProduct->sellprice - $resultProduct->purchaseprice ).'</span></li>
+						<li class="list-group-item">Stock <span class="label label-danger pull-right">'.$resultProduct->stock.'</span></li>
+						<li class="list-group-item"><strong>Description :- </strong> <span class="">'.$resultProduct->description.'</span></li>
                     </ul>
                  </div>
                  <div class="col-md-6">
                  <center><p class="list-group-item list-group-item-success"><strong>Product Image</strong></p></center>
                     <ul class="list-group">
-                        <li class="list-group-item">New <span class="badge">12</span></li>
-                        <li class="list-group-item">Deleted <span class="badge">5</span></li>
-                        <li class="list-group-item">Warning <span class="badge">10</span></li>
+                        <li class="list-group-item"><img src="uploads/'.$resultProduct->productimage.'" alt="Product Image" style="max-width:100%;" class="img-responsive"></li>
                     </ul>
                  </div>';
 
