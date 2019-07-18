@@ -37,7 +37,11 @@
             'ordering'    : true,
             'info'        : true,
             'autoWidth'   : true
-            })
+            });
+         $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+            //alert("Worlding");
+         });
      </script>
 </body>
 </html>

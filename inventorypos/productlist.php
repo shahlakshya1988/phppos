@@ -36,18 +36,21 @@
                             <th>Stock</th>
                             <th>Description</th>
                             <th>Image</th>
-                            <th>Action</th>
+                            <th>View</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
                         </thead>
                         <tbody>
                             <?php
                             $get_product = $pdo->prepare("SELECT * FROM `tbl_product` ORDER BY `productid` DESC");
                             $get_product->execute();
                             $get_category = $pdo->prepare("SELECT `category` from `tbl_category` where `catid`=:catid");
+                            $sr_no=1;
                             while ($product = $get_product->fetch(PDO::FETCH_OBJ)) {
                                 // var_dump($product);
                                 ?>
                                 <tr>
-                                    <td></td>
+                                    <td><?php echo $sr_no++; ?></td>
                                     <td><?php echo $product->productname; ?></td>
                                     <td>
                                         <?php
@@ -72,10 +75,16 @@
                                         <?php echo $product->description; ?>
                                     </td>
                                     <td>
-                                        <img src="uploads/<?php echo $product->productimage; ?>" alt="<?php echo $product->productname; ?>" height="50">
+                                        <img src="uploads/<?php echo $product->productimage; ?>" alt="<?php echo $product->productname; ?>" height="50px">
                                     </td>
                                     <td>
-                                        <a href="productlist.php" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                                        <a href="viewproduct.php" class="btn btn-success" data-toggle="tooltip" title="View Details"><span class="glyphicon glyphicon-eye-open" ></span></a>
+                                    </td>
+                                    <td>
+                                        <a href="editproduct.php" class="btn btn-info" data-toggle="tooltip" title="Edit Product" ><span class="glyphicon glyphicon-pencil"></span></a>
+                                    </td>
+                                    <td>
+                                        <a href="deleteproduct.php" class="btn btn-danger"  data-toggle="tooltip" title="Delete Product"><span class="glyphicon glyphicon-trash"></span></a>
                                     </td>
                                 </tr>
                             <?php
@@ -93,7 +102,9 @@
                             <th>Stock</th>
                             <th>Description</th>
                             <th>Image</th>
-                            <th>Action</th>
+                            <th>View</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
                         </tfoot>
                     </table>
                 </div>
