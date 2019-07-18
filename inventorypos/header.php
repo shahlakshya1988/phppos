@@ -162,6 +162,17 @@ desired effect
         <!-- Optionally, you can add icons to the links -->
         <li class="active"><a href="dashboard.php"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
         <li><a href="category.php"><i class="fa fa-list-alt"></i> <span>Category</span></a></li>
+		<li class="treeview">
+          <a href="#"><i class="fa fa-product-hunt"></i> <span>Manage Product</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="productlist.php">Product List</a></li>
+            <li><a href="addproduct.php">Add Product</a></li>
+          </ul>
+        </li> 
         <li><a href="registration.php"><i class="fa fa-registered"></i> <span>Registration</span></a></li>
        <?php /* <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
