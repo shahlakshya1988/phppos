@@ -64,6 +64,19 @@ if (isset($_POST["btnAddProduct"])) {
                 </script>
             <?php
             }
+        }else{
+            ?>
+            <script type="text/javascript">
+                window.addEventListener("load",function(){
+                    swal({
+                        title:"File Operation Failed",
+                        text:"Product Can't be Added",
+                        icon:"error",
+                        button:"Ok"
+                    });
+                });
+            </script>
+            <?php 
         }
     } else {
         if (!in_array($type, $allowed_type) || !in_array($ext, $allowed_ext)) {

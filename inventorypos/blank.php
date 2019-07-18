@@ -15,10 +15,20 @@
 
     <!-- Main content -->
     <section class="content container-fluid">
-
-      <!--------------------------
-        | Your Page Content Here |
-        -------------------------->
+      <div class="box box-warning">
+        <div class="box-header with-border">
+            <h3 class="box-title">Page Title Goes Here</h3>
+        </div> <!-- div.box-header -->
+        <div class="box-body">
+          <!--------------------------
+            | Your Page Content Here |
+            -------------------------->
+        </div> <!-- div.box-body -->
+        <div class="box-footer">
+            
+        </div> <!-- div.box-footer -->
+      </div> <!-- div.box -->
+    
 
     </section>
     <!-- /.content -->

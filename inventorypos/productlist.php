@@ -78,13 +78,13 @@
                                         <img src="uploads/<?php echo $product->productimage; ?>" alt="<?php echo $product->productname; ?>" height="50px">
                                     </td>
                                     <td>
-                                        <a href="viewproduct.php" class="btn btn-success" data-toggle="tooltip" title="View Details"><span class="glyphicon glyphicon-eye-open" ></span></a>
+                                        <a href="viewproduct.php?id=<?php echo $product->productid; ?>" class="btn btn-success" data-toggle="tooltip" title="View Details"><span class="glyphicon glyphicon-eye-open" ></span></a>
                                     </td>
                                     <td>
-                                        <a href="editproduct.php" class="btn btn-info" data-toggle="tooltip" title="Edit Product" ><span class="glyphicon glyphicon-pencil"></span></a>
+                                        <a href="editproduct.php?id=<?php echo $product->productid; ?>" class="btn btn-info" data-toggle="tooltip" title="Edit Product" ><span class="glyphicon glyphicon-pencil"></span></a>
                                     </td>
                                     <td>
-                                        <a href="deleteproduct.php" class="btn btn-danger"  data-toggle="tooltip" title="Delete Product"><span class="glyphicon glyphicon-trash"></span></a>
+                                        <a href="deleteproduct.phpid=<?php echo $product->productid; ?>" class="btn btn-danger"  data-toggle="tooltip" title="Delete Product"><span class="glyphicon glyphicon-trash"></span></a>
                                     </td>
                                 </tr>
                             <?php
