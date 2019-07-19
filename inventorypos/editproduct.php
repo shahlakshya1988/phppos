@@ -1,5 +1,68 @@
 <?php require_once "./header.php"; ?>
 <?php
+$allowed_type = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
+$allowed_ext = ["png", "jpg", "jpeg", "gif"];
+$allowed_size = 10485760;
+
+if(isset($_POST["btnEditProduct"])){
+	$productid = trim($_GET["id"]);
+	$productname = trim($_POST["productName"]);
+    $productcategory = trim($_POST["productcategory"]);
+    $purchaseprice = trim($_POST["purchasePrice"]);
+    $sellprice = trim($_POST["sellPrice"]);
+    $stock = trim($_POST["stock"]);
+    $description = trim($_POST["productDescription"]);
+	
+	
+	$name = $_FILES["productImage"]["name"];
+	$tmp_name = $_FILES["productImage"]["tmp_name"];
+	$error = $_FILES["productImage"]["error"];
+	$size = $_FILES["productImage"]["size"];
+	$type = $_FILES["productImage"]["type"];
+	$ext = explode(".",$name);
+	$ext = end($ext);
+	$ext = strtolower($ext);
+	$newname = uniqid("",true).".".$ext;
+	
+	$updateProduct = $pdo->prepare("UPDATE `tbl_product` SET `productname` = :productname,`productcategory` = :productcategory , `purchaseprice` = :purchaseprice, `sellprice` = :sellprice, `stock` = :stock, `description` = :description WHERE `productid` = :productid LIMIT 1");
+	$updateProduct -> bindParam(":productid",$productid);
+	$updateProduct -> bindParam(":productname",$productname);
+	$updateProduct -> bindParam(":productcategory",$productcategory);
+	$updateProduct -> bindParam(":purchaseprice",$purchaseprice);
+	$updateProduct -> bindParam(":sellprice",$sellprice);
+	$updateProduct -> bindParam(":stock",$stock);
+	$updateProduct -> bindParam(":description",$description);
+	
+	if($updateProduct->execute()){
+		if(in_array($ext,$allowed_ext) && in_array($type,$allowed_type) && $size <= $allowed_size ){
+			$path = "uploads/{$newname}";
+			if(move_uploaded_file($tmp_name,$path)){
+				$updateProductImage = $pdo->prepare("UPDATE `tbl_product` SET `productimage` = :newname WHERE `productid` = :productid LIMIT 1");
+				$updateProductImage->bindParam(":newname",$newname);
+				$updateProductImage->bindParam(":productid",$productid);
+				$updateProductImage->execute();
+			}
+		}
+		?>
+		<script type="text/javascript">
+			window.addEventListener("load",function(){
+				swal({
+					title:"Product Updated",
+					text:"Product Has Been Successfully Updated",
+					icon:"success",
+					button:false,
+					showCancelButton:false,
+					showConfirmButton:false,
+				});
+			});
+		</script>
+		<?php 
+		header("refresh:5,editproduct.php?id={$productid}");
+	}
+	
+}
+
+
 if(isset($_GET["id"]) && trim($_GET["id"])!=''){
 	$productid = trim($_GET["id"]);
 	$getProduct = $pdo->prepare("SELECT * FROM `tbl_product` where `productid` = :productid");
@@ -88,12 +151,12 @@ if(isset($_GET["id"]) && trim($_GET["id"])!=''){
 									<img src="uploads/<?php echo $product->productimage; ?>" height="50px" class="img-rounded">
 									<br>
 									<br>
-                                    <input type="file" name="productImage" id="productImage" placeholder="Upload Product Image" class="form-control" accept="image/*" required>
+                                    <input type="file" name="productImage" id="productImage" placeholder="Upload Product Image" class="form-control" accept="image/*">
                                 </div>
                             </div><!-- div.col-md-6 -->
                             <div class="clearfix"></div>
                             <div class="box-footer">
-                                <button type="submit" class="btn btn-info" name="btnEditProduct">Update Product</button>
+                                <button type="submit" class="btn btn-warning" name="btnEditProduct">Update Product</button>
 
                             </div>
                         </form>
