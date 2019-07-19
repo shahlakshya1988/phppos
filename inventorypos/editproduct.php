@@ -84,6 +84,10 @@ if(isset($_GET["id"]) && trim($_GET["id"])!=''){
                                 </div>
                                 <div class="form-group">
                                     <label for="productImage">Product Image</label>
+									<br>
+									<img src="uploads/<?php echo $product->productimage; ?>" height="50px" class="img-rounded">
+									<br>
+									<br>
                                     <input type="file" name="productImage" id="productImage" placeholder="Upload Product Image" class="form-control" accept="image/*" required>
                                 </div>
                             </div><!-- div.col-md-6 -->
