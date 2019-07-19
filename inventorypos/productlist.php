@@ -84,7 +84,7 @@
                                         <a href="editproduct.php?id=<?php echo $product->productid; ?>" class="btn btn-info" data-toggle="tooltip" title="Edit Product" ><span class="glyphicon glyphicon-pencil"></span></a>
                                     </td>
                                     <td>
-                                        <a href="deleteproduct.phpid=<?php echo $product->productid; ?>" class="btn btn-danger"  data-toggle="tooltip" title="Delete Product"><span class="glyphicon glyphicon-trash"></span></a>
+                                        <button id="<?php echo $product->productid; ?>" class="btnDelete btn btn-danger"  data-toggle="tooltip" title="Delete Product"><span class="glyphicon glyphicon-trash"></span></button>
                                     </td>
                                 </tr>
                             <?php
@@ -119,4 +119,49 @@
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+<script>
+	window.addEventListener("load",function(){
+		$(document).on("click",".btnDelete",function(){
+			var id = $(this).attr("id");
+			var button = $(this);
+			// alert(id);
+			// alert();
+
+			swal({
+			  title: "Are you sure?",
+			  text: "Once deleted, you will not be able to recover this imaginary file!",
+			  icon: "warning",
+			  buttons: true,
+			  dangerMode: true,
+			}).then((willDelete) => {
+				  if (willDelete) {
+				  	$.ajax({
+				  		type:"post",
+				  		url:"productdelete.php",
+				  		data:{pid:id},
+				  		success:function(data){
+				  			data = data.trim();
+				  			//alert(data);
+				  			if(data=="Yes"){
+				  				button.parentsUntil("tr").parent().hide();
+				  				swal("Entry Has Been Delete", {
+								      icon: "success",
+								    });
+				  			}
+				  			
+				  		}
+				  	});
+
+				    
+				  } else {
+				    swal("Operation Aborted By user");
+				  }
+				});
+
+			
+			return false;
+		});
+	});
+	
+</script>
 <?php require_once "./footer.php"; ?>
