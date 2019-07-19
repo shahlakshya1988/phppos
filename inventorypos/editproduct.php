@@ -70,7 +70,7 @@ if(isset($_GET["id"]) && trim($_GET["id"])!=''){
 	if($getProduct->execute()){
 		if($getProduct->rowCount()){
 			$product = $getProduct->fetch(PDO::FETCH_OBJ);
-			var_dump($product);
+			//var_dump($product);
 		}else{
 			header("refresh:1;productlist.php");
 		}
