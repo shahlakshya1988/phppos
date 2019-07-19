@@ -129,7 +129,7 @@
 
 			swal({
 			  title: "Are you sure?",
-			  text: "Once deleted, you will not be able to recover this imaginary file!",
+			  text: "Once deleted, you will not be able to recover this Product",
 			  icon: "warning",
 			  buttons: true,
 			  dangerMode: true,
