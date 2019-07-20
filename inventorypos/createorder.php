@@ -28,7 +28,13 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="customername">Customer Name</label>
-              <input type="text" name="customername" id="customername" class="form-control" required="true">
+              <div class="input-group">
+              	<div class="input-group-addon">
+              		<i class="fa fa-user"></i>
+              	</div>
+              	<input type="text" name="customername" id="customername" class="form-control" required="true">
+              </div>
+              
             </div>
           </div>
           <div class="col-md-6">
@@ -107,33 +113,87 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="subtotal" class="form-label">Sub Total</label>
-              <input type="number" name="subtotal" id="subtotal" class="form-control" placeholder="Sub Total" required="">
+              <div class="input-group">
+              	<div class="input-group-addon">
+              		<i class="fa fa-usd"></i>
+              	</div>
+              	<input type="number" name="subtotal" id="subtotal" class="form-control" placeholder="Sub Total" required="">
+              </div>
+              
             </div>
             <div class="form-group">
             	<label for="tax">Taxes</label>
+            	<div class="input-group">
+            		<div class="input-group-addon">
+            			<i class="fa fa-usd"></i>
+            		</div>
             	<input type="number" name="tax" id="tax" class="form-control" placeholder="Taxes" required>
+            	</div>
             </div>
             <div class="form-group">
             	<label for="discount">Discount</label>
-            	<input type="number" name="discount" id="discount" class="form-control" required="true" placeholder="Discount">
+            	<div class="input-group">
+            		<div class="input-group-addon">
+            			<i class="fa fa-usd"></i>
+            		</div>
+            		<input type="number" name="discount" id="discount" class="form-control" required="true" placeholder="Discount">
+            	</div>
+            	
             </div>
           </div>
           <div class="col-md-6">
           	<div class="form-group">
           		<label for="total">Total</label>
-          		<input type="number" name="total" id="total" class="form-control" required>
+          		<div class="input-group">
+          			<div class="input-group-addon">
+          				<i class="fa fa-usd"></i>
+          			</div>
+          			<input type="number" name="total" id="total" class="form-control" required>
+          		</div>
+          		
           	</div>
           	<div class="form-group">
           		<label for="paid">Paid</label>
-          		<input type="number" name="paid" id="paid" placeholder="Paid Amount" class="form-control" required="">
+          		<div class="input-group">
+          			<div class="input-group-addon">
+          				<i class="fa fa-usd"></i>
+          			</div>
+          			<input type="number" name="paid" id="paid" placeholder="Paid Amount" class="form-control" required="">
+          		</div>
+          		
           	</div>
           	<div class="form-group">
           		<label for="">Due</label>
+          		<div class="input-group">
+          			<div class="input-group-addon">
+          				<i class="fa fa-usd"></i>
+          			</div>
           		<input type="number" name="due" id="due" class="form-control" value="0" placeholder="Enter Due Amount">
+          		</div>
           	</div>
           </div>
+          <div class="clearfix"></div>
+          <div class="col-lg-12">
+          	<div class="form-group">
+          		<label for="">Payment Method</label> <br>
+          		<label for="paymentmethod1">
+          			<input type="radio" name="paymentmethod" id="paymentmethod1" class="minimal-red" checked value="Cash"> Cash
+          		</label> <br>
+          		<label for="paymentmethod2">
+          			<input type="radio" name="paymentmethod" id="paymentmethod2" class="minimal-red" value="Card"> Card
+          		</label> <br>
+          		<label for="paymentmethod3">
+          			<input type="radio" name="paymentmethod" id="paymentmethod3" class="minimal-red" value="Cheque"> Cheque
+          		</label>
+          	</div>
+          </div>
+          
         </div> <!-- div.box-body -->
-
+		<div class="box-footer">
+			<div align="center">
+				<button type="submit" name="btnSaveOrder" class="btn btn-info">Create Order</button>
+			</div>
+		</div>
 
       </form>
     </div> <!-- div.box -->

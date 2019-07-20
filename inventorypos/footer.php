@@ -35,6 +35,8 @@
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. -->
+     <!-- iCheck 1.0.1 -->
+<script src="plugins/iCheck/icheck.min.js"></script>
      <script>
          $('.datatable').DataTable({
             'paging'      : true,
@@ -50,6 +52,10 @@
          });
          $('.datepicker').datepicker({
            autoclose: true
+         })
+         $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
+           checkboxClass: 'icheckbox_minimal-red',
+           radioClass   : 'iradio_minimal-red'
          })
      </script>
 </body>
