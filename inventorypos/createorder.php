@@ -1,69 +1,147 @@
 <?php require_once "./header.php"; ?>
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-        Create Order
-        <small></small>
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-        <li class="active">Here</li>
-      </ol>
-    </section>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      Create Order
+      <small></small>
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+      <li class="active">Here</li>
+    </ol>
+  </section>
 
-    <!-- Main content -->
-    <section class="content container-fluid">
-      <div class="box box-warning">
-        <form action="" method="POST">
-            
-            <div class="box-header with-border">
-                <h3 class="box-title">New Order</h3>
-            </div> <!-- div.box-header -->
-            <div class="box-body">
-              <!--------------------------
+  <!-- Main content -->
+  <section class="content container-fluid">
+    <div class="box box-warning">
+      <form action="" method="POST">
+
+        <div class="box-header with-border">
+          <h3 class="box-title">New Order</h3>
+        </div> <!-- div.box-header -->
+        <div class="box-body">
+          <!--------------------------
                 | THIS IS FOR CUSTOMER AND DATE |
                 -------------------------->
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="customername">Customer Name</label>
-                        <input type="text" name="customername" id="customername" class="form-control" required="true">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Purchase Date:</label>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="customername">Customer Name</label>
+              <input type="text" name="customername" id="customername" class="form-control" required="true">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Purchase Date:</label>
 
-                        <div class="input-group date">
-                          <div class="input-group-addon">
-                            <i class="fa fa-calendar"></i>
-                          </div>
-                          <input type="text" name="purchasedate" class="form-control pull-right datepicker" id="purchasedate">
-                        </div>
-                        <!-- /.input group -->
-                    </div>
+              <div class="input-group date">
+                <div class="input-group-addon">
+                  <i class="fa fa-calendar"></i>
                 </div>
-            </div> <!-- div.box-body -->
-            <div class="box-body">
-              <!--------------------------
+                <input type="text" name="purchasedate" class="form-control pull-right datepicker" id="purchasedate">
+              </div>
+              <!-- /.input group -->
+            </div>
+          </div>
+        </div> <!-- div.box-body -->
+        <div class="box-body">
+          <!--------------------------
                 | THIS IS FOR TABLE |
                 -------------------------->
-            </div> <!-- div.box-body -->
-            <div class="box-body">
-              <!--------------------------
+          <div class="col-md-12">
+            <table class="datatable table table-bordered table-striped">
+              <thead>
+                <th>#</th>
+                <th>Search Product</th>
+                <th>Stock</th>
+                <th>Price</th>
+                <th>Enter Quantity</th>
+                <th>Total</th>
+                <th>
+                  <button type="button" name="add" class="btn btn-success btnAdd btn-sm"> <span class="glyphicon glyphicon-plus"></span> </button>
+                </th>
+              </thead>
+              <tbody>
+                <?php
+                $get_product = $pdo->prepare("SELECT * FROM `tbl_product` ORDER BY `productid` DESC");
+                $get_product->execute();
+                $get_category = $pdo->prepare("SELECT `category` from `tbl_category` where `catid`=:catid");
+                $sr_no = 1;
+                while ($product = $get_product->fetch(PDO::FETCH_OBJ)) {
+                  // var_dump($product);
+                  ?>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                <?php
+                }
+
+                ?>
+
+              </tbody>
+              <tfoot>
+                <th>#</th>
+                <th>Search Product</th>
+                <th>Stock</th>
+                <th>Price</th>
+                <th>Enter Quantity</th>
+                <th>Total</th>
+                <th>
+                  &nbsp;
+                </th>
+              </tfoot>
+            </table>
+          </div>
+        </div> <!-- div.box-body -->
+        <div class="box-body">
+          <!--------------------------
                 | THIS IS FOR DISCOUNT AND TAXES |
                 -------------------------->
-            </div> <!-- div.box-body -->
-            
-            
-        </form>
-      </div> <!-- div.box -->
-    
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="subtotal" class="form-label">Sub Total</label>
+              <input type="number" name="subtotal" id="subtotal" class="form-control" placeholder="Sub Total" required="">
+            </div>
+            <div class="form-group">
+            	<label for="tax">Taxes</label>
+            	<input type="number" name="tax" id="tax" class="form-control" placeholder="Taxes" required>
+            </div>
+            <div class="form-group">
+            	<label for="discount">Discount</label>
+            	<input type="number" name="discount" id="discount" class="form-control" required="true" placeholder="Discount">
+            </div>
+          </div>
+          <div class="col-md-6">
+          	<div class="form-group">
+          		<label for="total">Total</label>
+          		<input type="number" name="total" id="total" class="form-control" required>
+          	</div>
+          	<div class="form-group">
+          		<label for="paid">Paid</label>
+          		<input type="number" name="paid" id="paid" placeholder="Paid Amount" class="form-control" required="">
+          	</div>
+          	<div class="form-group">
+          		<label for="">Due</label>
+          		<input type="number" name="due" id="due" class="form-control" value="0" placeholder="Enter Due Amount">
+          	</div>
+          </div>
+        </div> <!-- div.box-body -->
 
-    </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
- 
+
+      </form>
+    </div> <!-- div.box -->
+
+
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
 <?php require_once "./footer.php"; ?>
