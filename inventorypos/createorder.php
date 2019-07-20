@@ -65,23 +65,11 @@
                 <th>Enter Quantity</th>
                 <th>Total</th>
                 <th>
-                  <button type="button" name="add" class="btn btn-success btnAdd btn-sm"> <span class="glyphicon glyphicon-plus"></span> </button>
+                  <center><button type="button" name="add" class="btn btn-success btnAdd btn-sm"> <span class="glyphicon glyphicon-plus"></span> </button></center>
                 </th>
               </thead>
               <tbody id="productTable_tbody">
-                <?php
-                $get_product = $pdo->prepare("SELECT * FROM `tbl_product` ORDER BY `productid` DESC");
-                $get_product->execute();
-                $get_category = $pdo->prepare("SELECT `category` from `tbl_category` where `catid`=:catid");
-                $sr_no = 1;
-                while ($product = $get_product->fetch(PDO::FETCH_OBJ)) {
-                  // var_dump($product);
-                  ?>
-                  
-                <?php
-                }
-
-                ?>
+                
 
               </tbody>
               <tfoot>
@@ -195,23 +183,42 @@
   <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+
+<?php
+  $get_product = $pdo->prepare("SELECT * FROM `tbl_product` ORDER BY `productid` DESC");
+  $get_product->execute();
+  $get_category = $pdo->prepare("SELECT `category` from `tbl_category` where `catid`=:catid");
+  $sr_no = 1;
+  $productOptionString="";
+  while ($product = $get_product->fetch(PDO::FETCH_OBJ)) {
+    $productOptionString.="<option value='".$product->productid."'>".$product->productname."</option>";
+  }
+
+?>
+
 <script>
 	$(document).ready(function(){
-		alert("Working");
+		//alert("Working");
 	});
 	$(document).on("click",".btnAdd",function(){
 		var html = "";
 		html += "<tr>";
-		html += '<td><input type="text" class="form-control pname" name="productname[]"  required /></td>';
-		html += '<td><input type="text" class="form-control pid" name="productid[]"  required /></td>';
-		html += '<td><input type="text" class="form-control stock" name="productstock[]"  required /></td>';
-		html += '<td><input type="text" class="form-control price" name="productprice[]"  required /></td>';
-		html += '<td><input type="text" class="form-control qty" name="productqty[]"  required /></td>';
-		html += '<td><input type="text" class="form-control total" name="producttotal[]"  required /></td>';
-		html += '<td>&nbsp;</td>';
+		html += '<td><input type="hidden" class="form-control pname" name="productname[]"  required /></td>';
+    html += "<td><select name=\"productid[]\" id=\"\" class=\"form-control select2 productid \" ><option>Select Product</option>"+"<?php echo $productOptionString ?>"+"</select></td>"; 
+		// html += '<td><input type="text" class="form-control pid" name="productid[]"  required /></td>';
+		html += '<td><input type="text" class="form-control stock" name="productstock[]"  readonly /></td>';
+		html += '<td><input type="text" class="form-control price" name="productprice[]"  readonly /></td>';
+		html += '<td><input type="text" class="form-control qty" name="productqty[]"   /></td>';
+		html += '<td><input type="text" class="form-control total" name="producttotal[]"  readonly /></td>';
+		html += '<td><center><button class=\" btn btn-danger btnRemove \" name=\"remove\"" ><span class=\"glyphicon glyphicon-remove\"></span></button></center></td>';
 		html += "</tr>";
 		$("#productTable_tbody").append(html);
 
 	});
+
+  $(document).on("click",".btnRemove",function(){
+    // $(this).parentsUntil("tr").parent().remove();
+    $(this).closest("tr").remove();
+  });
 </script>
 <?php require_once "./footer.php"; ?>
