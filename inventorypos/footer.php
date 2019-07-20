@@ -16,8 +16,7 @@
 
 <!-- REQUIRED JS SCRIPTS -->
 
-<!-- jQuery 3 -->
-<script src="<?php echo $baseurl; ?>bower_components/jquery/dist/jquery.min.js"></script>
+
 <!-- Bootstrap 3.3.7 -->
 <script src="<?php echo $baseurl; ?>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
@@ -44,7 +43,8 @@
             'searching'   : true,
             'ordering'    : true,
             'info'        : true,
-            'autoWidth'   : true
+            'autoWidth'   : true,
+             'responsive': true
             });
          $(document).ready(function(){
             $('[data-toggle="tooltip"]').tooltip();

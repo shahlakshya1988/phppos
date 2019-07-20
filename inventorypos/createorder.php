@@ -56,7 +56,7 @@
                 | THIS IS FOR TABLE |
                 -------------------------->
           <div class="col-md-12">
-            <table class="datatable table table-bordered table-striped">
+            <table class="datatable1 table table-bordered table-striped">
               <thead>
                 <th>#</th>
                 <th>Search Product</th>
@@ -68,7 +68,7 @@
                   <button type="button" name="add" class="btn btn-success btnAdd btn-sm"> <span class="glyphicon glyphicon-plus"></span> </button>
                 </th>
               </thead>
-              <tbody>
+              <tbody id="productTable_tbody">
                 <?php
                 $get_product = $pdo->prepare("SELECT * FROM `tbl_product` ORDER BY `productid` DESC");
                 $get_product->execute();
@@ -77,15 +77,7 @@
                 while ($product = $get_product->fetch(PDO::FETCH_OBJ)) {
                   // var_dump($product);
                   ?>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
+                  
                 <?php
                 }
 
@@ -203,5 +195,23 @@
   <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+<script>
+	$(document).ready(function(){
+		alert("Working");
+	});
+	$(document).on("click",".btnAdd",function(){
+		var html = "";
+		html += "<tr>";
+		html += '<td><input type="text" class="form-control pname" name="productname[]"  required /></td>';
+		html += '<td><input type="text" class="form-control pid" name="productid[]"  required /></td>';
+		html += '<td><input type="text" class="form-control stock" name="productstock[]"  required /></td>';
+		html += '<td><input type="text" class="form-control price" name="productprice[]"  required /></td>';
+		html += '<td><input type="text" class="form-control qty" name="productqty[]"  required /></td>';
+		html += '<td><input type="text" class="form-control total" name="producttotal[]"  required /></td>';
+		html += '<td>&nbsp;</td>';
+		html += "</tr>";
+		$("#productTable_tbody").append(html);
 
+	});
+</script>
 <?php require_once "./footer.php"; ?>

@@ -16,11 +16,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <title>InventoryPOS </title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="<?php echo $baseurl; ?>bower_components/bootstrap/dist/css/bootstrap.min.css">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="<?php echo $baseurl; ?>bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
+  <link rel="stylesheet" href="<?php echo $baseurl; ?>bower_components/Ionicons/css/ionicons.min.css">
  
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -34,16 +34,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
  <!-- bootstrap datepicker -->
-  <link rel="stylesheet" href="bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+  <link rel="stylesheet" href="<?php echo $baseurl; ?>bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
    <!-- iCheck for checkboxes and radio inputs -->
-  <link rel="stylesheet" href="plugins/iCheck/all.css">
+  <link rel="stylesheet" href="<?php echo $baseurl; ?>plugins/iCheck/all.css">
 
  <!-- Theme style -->
-  <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="<?php echo $baseurl; ?>dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect. -->
-  <link rel="stylesheet" href="dist/css/skins/skin-blue.min.css">
+  <link rel="stylesheet" href="<?php echo $baseurl; ?>dist/css/skins/skin-blue.min.css">
+
+  <!-- jQuery 3 -->
+<script src="<?php echo $baseurl; ?>bower_components/jquery/dist/jquery.min.js"></script>
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -179,6 +182,16 @@ desired effect
             <li><a href="addproduct.php">Add Product</a></li>
           </ul>
         </li> 
+        <li class="treeview">
+          <a href="#"><i class="fa fa-product-hunt"></i> <span>Manage Order</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="createorder.php">Create Order</a></li>
+          </ul>
+        </li>
         <li><a href="registration.php"><i class="fa fa-registered"></i> <span>Registration</span></a></li>
        <?php /* <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
