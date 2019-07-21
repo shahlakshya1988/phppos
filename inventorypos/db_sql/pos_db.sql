@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 16, 2019 at 02:46 AM
+-- Generation Time: Jul 21, 2019 at 03:25 PM
 -- Server version: 5.7.24
 -- PHP Version: 7.3.1
 
@@ -33,14 +33,17 @@ CREATE TABLE IF NOT EXISTS `tbl_category` (
   `catid` int(255) NOT NULL AUTO_INCREMENT,
   `category` varchar(255) NOT NULL,
   PRIMARY KEY (`catid`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tbl_category`
 --
 
 INSERT INTO `tbl_category` (`catid`, `category`) VALUES
-(2, 'Mobile');
+(2, 'Mobile'),
+(3, 'Computer'),
+(4, 'Tablet'),
+(5, 'Laptop');
 
 -- --------------------------------------------------------
 
@@ -59,17 +62,16 @@ CREATE TABLE IF NOT EXISTS `tbl_product` (
   `description` text NOT NULL,
   `productimage` varchar(255) NOT NULL,
   PRIMARY KEY (`productid`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tbl_product`
 --
 
 INSERT INTO `tbl_product` (`productid`, `productname`, `productcategory`, `purchaseprice`, `sellprice`, `stock`, `description`, `productimage`) VALUES
-(1, 'SDAFDSF', '2', 234, 234, 23423, '', '5d2cb68d05b907.07454732.png'),
-(2, 'SDAFDSF', '2', 234, 234, 23423, '', '5d2cb6afc73e27.63758642.png'),
-(3, 'SDAFDSF', '2', 124, 12413400, 234, 'dsfdsfsdafdsf', '5d2cb6c38404d1.83385841.png'),
-(4, 'SDAFDSF', '2', 124, 12413400, 234, 'dsfdsfsdafdsf', '5d2cb6d1e21c99.61986231.png');
+(5, 'Dell Studio 1535', '5', 50000, 60000, 5, 'Laptop with durable keyboard', '5d348184cda7f9.23368946.jpg'),
+(6, 'Iphone 5', '2', 25000, 30000, 10, 'This is iphone by company apple', '5d3481b0d51827.90402619.jpg'),
+(7, 'Ipad', '4', 60000, 70000, 20, 'Tablet By Apple', '5d3481d6d89638.59282845.jpg');
 
 -- --------------------------------------------------------
 

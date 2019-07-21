@@ -1,4 +1,18 @@
 <?php require_once "./header.php"; ?>
+<?php 
+function fill_product(){
+  global $pdo;
+  $output='';
+  $select_product = $pdo->prepare("SELECT `productid`,`productname` from `tbl_product` ORDER BY `productname` ASC ");
+  $select_product->execute();
+  if($select_product->rowCount()){
+    while($row = $select_product->fetch(PDO::FETCH_OBJ)){
+      $output.="<option value='{$row->productid}'>{$row->productname}</option>";
+    }
+  }
+  return $output;
+}
+?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -185,6 +199,8 @@
 <!-- /.content-wrapper -->
 
 <?php
+/*
+//OLD METHOD, NOW WE ARE CALLING SAME WITH FUNCTION
   $get_product = $pdo->prepare("SELECT * FROM `tbl_product` ORDER BY `productid` DESC");
   $get_product->execute();
   $get_category = $pdo->prepare("SELECT `category` from `tbl_category` where `catid`=:catid");
@@ -193,7 +209,7 @@
   while ($product = $get_product->fetch(PDO::FETCH_OBJ)) {
     $productOptionString.="<option value='".$product->productid."'>".$product->productname."</option>";
   }
-
+*/
 ?>
 
 <script>
@@ -204,7 +220,7 @@
 		var html = "";
 		html += "<tr>";
 		html += '<td><input type="hidden" class="form-control pname" name="productname[]"  required /></td>';
-    html += "<td><select name=\"productid[]\" id=\"\" class=\"form-control select2 productid \" ><option>Select Product</option>"+"<?php echo $productOptionString ?>"+"</select></td>"; 
+    html += "<td><select name=\"productid[]\" id=\"\" class=\"form-control select2 productid \" ><option>Select Product</option>"+"<?php echo fill_product(); ?>"+"</select></td>"; 
 		// html += '<td><input type="text" class="form-control pid" name="productid[]"  required /></td>';
 		html += '<td><input type="text" class="form-control stock" name="productstock[]"  readonly /></td>';
 		html += '<td><input type="text" class="form-control price" name="productprice[]"  readonly /></td>';
