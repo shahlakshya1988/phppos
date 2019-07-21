@@ -26,87 +26,89 @@
             </div>
             <div class="box-body">
                 <div class="col-lg-12">
-                    <table class="datatable table table-bordered table-striped">
-                        <thead>
-                            <th>#</th>
-                            <th>Product Name</th>
-                            <th>Product Category</th>
-                            <th>Purchase Price</th>
-                            <th>Selling Price</th>
-                            <th>Stock</th>
-                            <th>Description</th>
-                            <th>Image</th>
-                            <th>View</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $get_product = $pdo->prepare("SELECT * FROM `tbl_product` ORDER BY `productid` DESC");
-                            $get_product->execute();
-                            $get_category = $pdo->prepare("SELECT `category` from `tbl_category` where `catid`=:catid");
-                            $sr_no=1;
-                            while ($product = $get_product->fetch(PDO::FETCH_OBJ)) {
-                                // var_dump($product);
+                    <div style="overflow-x: auto;">
+                        <table class="datatable table table-bordered table-striped">
+                            <thead>
+                                <th>#</th>
+                                <th>Product Name</th>
+                                <th>Product Category</th>
+                                <th>Purchase Price</th>
+                                <th>Selling Price</th>
+                                <th>Stock</th>
+                                <th>Description</th>
+                                <th>Image</th>
+                                <th>View</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $get_product = $pdo->prepare("SELECT * FROM `tbl_product` ORDER BY `productid` DESC");
+                                $get_product->execute();
+                                $get_category = $pdo->prepare("SELECT `category` from `tbl_category` where `catid`=:catid");
+                                $sr_no=1;
+                                while ($product = $get_product->fetch(PDO::FETCH_OBJ)) {
+                                    // var_dump($product);
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $sr_no++; ?></td>
+                                        <td><?php echo $product->productname; ?></td>
+                                        <td>
+                                            <?php
+                                            $catid = $product->productcategory;
+                                            $get_category->bindParam(":catid", $catid);
+                                            $get_category->execute();
+                                            $category = $get_category->fetch(PDO::FETCH_OBJ);
+                                            // var_dump($category);
+                                            echo $category->category;
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $product->purchaseprice; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $product->sellprice; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $product->stock; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $product->description; ?>
+                                        </td>
+                                        <td>
+                                            <img src="uploads/<?php echo $product->productimage; ?>" alt="<?php echo $product->productname; ?>" height="50px">
+                                        </td>
+                                        <td>
+                                            <a href="viewproduct.php?id=<?php echo $product->productid; ?>" class="btn btn-success" data-toggle="tooltip" title="View Details"><span class="glyphicon glyphicon-eye-open" ></span></a>
+                                        </td>
+                                        <td>
+                                            <a href="editproduct.php?id=<?php echo $product->productid; ?>" class="btn btn-info" data-toggle="tooltip" title="Edit Product" ><span class="glyphicon glyphicon-pencil"></span></a>
+                                        </td>
+                                        <td>
+                                            <button id="<?php echo $product->productid; ?>" class="btnDelete btn btn-danger"  data-toggle="tooltip" title="Delete Product"><span class="glyphicon glyphicon-trash"></span></button>
+                                        </td>
+                                    </tr>
+                                <?php
+                                }
+
                                 ?>
-                                <tr>
-                                    <td><?php echo $sr_no++; ?></td>
-                                    <td><?php echo $product->productname; ?></td>
-                                    <td>
-                                        <?php
-                                        $catid = $product->productcategory;
-                                        $get_category->bindParam(":catid", $catid);
-                                        $get_category->execute();
-                                        $category = $get_category->fetch(PDO::FETCH_OBJ);
-                                        // var_dump($category);
-                                        echo $category->category;
-                                        ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $product->purchaseprice; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $product->sellprice; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $product->stock; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $product->description; ?>
-                                    </td>
-                                    <td>
-                                        <img src="uploads/<?php echo $product->productimage; ?>" alt="<?php echo $product->productname; ?>" height="50px">
-                                    </td>
-                                    <td>
-                                        <a href="viewproduct.php?id=<?php echo $product->productid; ?>" class="btn btn-success" data-toggle="tooltip" title="View Details"><span class="glyphicon glyphicon-eye-open" ></span></a>
-                                    </td>
-                                    <td>
-                                        <a href="editproduct.php?id=<?php echo $product->productid; ?>" class="btn btn-info" data-toggle="tooltip" title="Edit Product" ><span class="glyphicon glyphicon-pencil"></span></a>
-                                    </td>
-                                    <td>
-                                        <button id="<?php echo $product->productid; ?>" class="btnDelete btn btn-danger"  data-toggle="tooltip" title="Delete Product"><span class="glyphicon glyphicon-trash"></span></button>
-                                    </td>
-                                </tr>
-                            <?php
-                            }
 
-                            ?>
-
-                        </tbody>
-                        <tfoot>
-                            <th>#</th>
-                            <th>Product Name</th>
-                            <th>Product Category</th>
-                            <th>Purchase Price</th>
-                            <th>Selling Price</th>
-                            <th>Stock</th>
-                            <th>Description</th>
-                            <th>Image</th>
-                            <th>View</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
-                        </tfoot>
-                    </table>
+                            </tbody>
+                            <tfoot>
+                                <th>#</th>
+                                <th>Product Name</th>
+                                <th>Product Category</th>
+                                <th>Purchase Price</th>
+                                <th>Selling Price</th>
+                                <th>Stock</th>
+                                <th>Description</th>
+                                <th>Image</th>
+                                <th>View</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tfoot>
+                        </table>
+                    </div>
                 </div>
             </div>
             <div class="box-footer">

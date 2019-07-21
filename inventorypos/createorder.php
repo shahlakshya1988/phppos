@@ -70,34 +70,37 @@ function fill_product(){
                 | THIS IS FOR TABLE |
                 -------------------------->
           <div class="col-md-12">
-            <table class="datatable1 table table-bordered table-striped">
-              <thead>
-                <th>#</th>
-                <th>Search Product</th>
-                <th>Stock</th>
-                <th>Price</th>
-                <th>Enter Quantity</th>
-                <th>Total</th>
-                <th>
-                  <center><button type="button" name="add" class="btn btn-success btnAdd btn-sm"> <span class="glyphicon glyphicon-plus"></span> </button></center>
-                </th>
-              </thead>
-              <tbody id="productTable_tbody">
-                
+            <div style="overflow-x:auto">
+              <table class="datatable1 table table-bordered table-striped">
+                <thead>
+                  <th>#</th>
+                  <th>Search Product</th>
+                  <th>Stock</th>
+                  <th>Price</th>
+                  <th>Enter Quantity</th>
+                  <th>Total</th>
+                  <th>
+                    <center><button type="button" name="add" class="btn btn-success btnAdd btn-sm"> <span class="glyphicon glyphicon-plus"></span> </button></center>
+                  </th>
+                </thead>
+                <tbody id="productTable_tbody">
+                  
 
-              </tbody>
-              <tfoot>
-                <th>#</th>
-                <th>Search Product</th>
-                <th>Stock</th>
-                <th>Price</th>
-                <th>Enter Quantity</th>
-                <th>Total</th>
-                <th>
-                  &nbsp;
-                </th>
-              </tfoot>
-            </table>
+                </tbody>
+                <tfoot>
+                  <th>#</th>
+                  <th>Search Product</th>
+                  <th>Stock</th>
+                  <th>Price</th>
+                  <th>Enter Quantity</th>
+                  <th>Total</th>
+                  <th>
+                    &nbsp;
+                  </th>
+                </tfoot>
+              </table>
+            </div>
+            
           </div>
         </div> <!-- div.box-body -->
         <div class="box-body">
