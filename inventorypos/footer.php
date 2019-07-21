@@ -27,15 +27,17 @@
 <script src="<?php echo $baseurl; ?>bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 
 <!-- date-range-picker -->
-<script src="bower_components/moment/min/moment.min.js"></script>
-<script src="bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script src="<?php echo $baseurl; ?>bower_components/moment/min/moment.min.js"></script>
+<script src="<?php echo $baseurl; ?>bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
 <!-- bootstrap datepicker -->
-<script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<script src="<?php echo $baseurl; ?>bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. -->
      <!-- iCheck 1.0.1 -->
-<script src="plugins/iCheck/icheck.min.js"></script>
+<script src="<?php echo $baseurl; ?>plugins/iCheck/icheck.min.js"></script>
+<!-- Select2 -->
+<script src="<?php echo $baseurl; ?>bower_components/select2/dist/js/select2.full.min.js"></script>
      <script>
          $('.datatable').DataTable({
             'paging'      : true,
@@ -57,6 +59,7 @@
            checkboxClass: 'icheckbox_minimal-red',
            radioClass   : 'iradio_minimal-red'
          })
+          $('.select2').select2()
      </script>
 </body>
 </html>

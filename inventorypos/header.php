@@ -37,6 +37,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="<?php echo $baseurl; ?>bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
    <!-- iCheck for checkboxes and radio inputs -->
   <link rel="stylesheet" href="<?php echo $baseurl; ?>plugins/iCheck/all.css">
+ <!-- Select2 -->
+  <link rel="stylesheet" href="<?php echo $baseurl; ?>bower_components/select2/dist/css/select2.min.css">
 
  <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo $baseurl; ?>dist/css/AdminLTE.min.css">
@@ -46,6 +48,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="<?php echo $baseurl; ?>dist/css/skins/skin-blue.min.css">
 
   <!-- jQuery 3 -->
+
 <script src="<?php echo $baseurl; ?>bower_components/jquery/dist/jquery.min.js"></script>
 </head>
 <!--

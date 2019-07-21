@@ -220,7 +220,7 @@ function fill_product(){
 		var html = "";
 		html += "<tr>";
 		html += '<td><input type="hidden" class="form-control pname" name="productname[]"  required /></td>';
-    html += "<td><select name=\"productid[]\" id=\"\" class=\"form-control select2 productid \" ><option>Select Product</option>"+"<?php echo fill_product(); ?>"+"</select></td>"; 
+    html += "<td><select style=\"width:250px;\" name=\"productid[]\" id=\"\" class=\"form-control select2 productid \" ><option>Select Product</option>"+"<?php echo fill_product(); ?>"+"</select></td>"; 
 		// html += '<td><input type="text" class="form-control pid" name="productid[]"  required /></td>';
 		html += '<td><input type="text" class="form-control stock" name="productstock[]"  readonly /></td>';
 		html += '<td><input type="text" class="form-control price" name="productprice[]"  readonly /></td>';
@@ -229,6 +229,7 @@ function fill_product(){
 		html += '<td><center><button class=\" btn btn-danger btnRemove \" name=\"remove\"" ><span class=\"glyphicon glyphicon-remove\"></span></button></center></td>';
 		html += "</tr>";
 		$("#productTable_tbody").append(html);
+    $('.select2').select2()
 
 	});
 

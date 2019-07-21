@@ -149,8 +149,8 @@ if (isset($_POST["btnAddProduct"])) {
                                 </div>
                                 <div class="form-group">
                                     <label for="productcategory">Select Category</label>
-                                    <select class="form-control" name="productcategory" id="productcategory" required>
-                                        <option value="" disabled selected>Select Product Category</option>
+                                    <select class="form-control select2" name="productcategory" id="productcategory" required>
+                                        <option value=""  selected>Select Product Category</option>
                                         <?php
                                         $get_category = $pdo->prepare("SELECT * FROM `tbl_category` order by `catid` DESC");
                                         $get_category->execute();
