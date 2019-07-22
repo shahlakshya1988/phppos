@@ -72,7 +72,7 @@ function fill_product()
                 -------------------------->
                     <div class="col-md-12">
                         <div style="overflow-x:auto">
-                            <table class="datatable1 table table-bordered table-striped">
+                            <table class="datatable1 table table-bordered table-striped" id="productTable">
                                 <thead>
                                     <th>#</th>
                                     <th>Search Product</th>
@@ -263,11 +263,36 @@ function fill_product()
         });
 
         // attaching the change event on quantity 
+        /*
         $(document).on("change", ".qty", function(e) {
             var tr = $(this).closest("tr");
             var qty = $(this).val();
             var sellingprice = tr.find(".price").val();
             var totalPrice = parseInt(qty) * parseInt(sellingprice);
+            tr.find(".total").val(totalPrice);
+        }); */
+        $("#productTable").delegate(".qty", "keyup change", function() {
+            var tr = $(this).closest("tr");
+            var qty = $(this).val();
+            qty = parseInt(qty);
+            var sellingprice = tr.find(".price").val();
+            //alert(isNaN(qty));
+            //alert(qty);
+            if (qty > parseInt(tr.find(".stock").val())) {
+                swal("Warning", "Warning! This Much Quantity Is Not Available", "warning");
+
+                tr.find(".qty").val(1);
+                var totalPrice = 1 * parseInt(sellingprice);
+                tr.find(".total").val(totalPrice);
+                return;
+
+            }
+            if (!isNaN(qty)) {
+                var totalPrice = parseInt(qty) * parseInt(sellingprice);
+
+            } else {
+                var totalPrice = 1 * parseInt(sellingprice);
+            }
             tr.find(".total").val(totalPrice);
         });
 
