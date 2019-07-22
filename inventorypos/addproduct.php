@@ -64,19 +64,19 @@ if (isset($_POST["btnAddProduct"])) {
                 </script>
             <?php
             }
-        }else{
+        } else {
             ?>
             <script type="text/javascript">
-                window.addEventListener("load",function(){
+                window.addEventListener("load", function() {
                     swal({
-                        title:"File Operation Failed",
-                        text:"Product Can't be Added",
-                        icon:"error",
-                        button:"Ok"
+                        title: "File Operation Failed",
+                        text: "Product Can't be Added",
+                        icon: "error",
+                        button: "Ok"
                     });
                 });
             </script>
-            <?php 
+        <?php
         }
     } else {
         if (!in_array($type, $allowed_type) || !in_array($ext, $allowed_ext)) {
@@ -150,7 +150,7 @@ if (isset($_POST["btnAddProduct"])) {
                                 <div class="form-group">
                                     <label for="productcategory">Select Category</label>
                                     <select class="form-control select2" name="productcategory" id="productcategory" required>
-                                        <option value=""  selected>Select Product Category</option>
+                                        <option value="" selected>Select Product Category</option>
                                         <?php
                                         $get_category = $pdo->prepare("SELECT * FROM `tbl_category` order by `catid` DESC");
                                         $get_category->execute();
