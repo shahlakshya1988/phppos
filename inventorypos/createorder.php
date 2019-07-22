@@ -228,7 +228,7 @@ function fill_product()
         // html += '<td><input type="text" class="form-control pid" name="productid[]"  required /></td>';
         html += '<td><input type="text" class="form-control stock" name="productstock[]"  readonly /></td>';
         html += '<td><input type="text" class="form-control price" name="productprice[]"  readonly /></td>';
-        html += '<td><input type="text" class="form-control qty" name="productqty[]"   /></td>';
+        html += '<td><input type="number" class="form-control qty" name="productqty[]" value="1" min="1"   /></td>';
         html += '<td><input type="text" class="form-control total" name="producttotal[]"  readonly /></td>';
         html += '<td><center><button class=\" btn btn-danger btnRemove \" name=\"remove\"" ><span class=\"glyphicon glyphicon-remove\"></span></button></center></td>';
         html += "</tr>";
@@ -238,6 +238,7 @@ function fill_product()
         //attaching on change event to productid
         $(".productid").on("change", function(e) {
             var productid = $(this).val().trim();
+            var tr = $(this).closest("tr");
             // alert(productid);
             $.ajax({
                 url: "getproduct.php",
@@ -246,7 +247,12 @@ function fill_product()
                     productid: productid
                 },
                 success: function(data) {
-                    alert(data);
+                    console.log(data);
+                    tr.find(".stock").val(data["stock"]);
+                    tr.find(".price").val(data["sellprice"]);
+                    tr.find(".qty").val(1);
+                    var totalPrice = 1 * parseInt(data["sellprice"]);
+                    tr.find(".total").val(totalPrice);
                 },
                 error: function() {
                     // alert("File Not Found");
@@ -254,6 +260,15 @@ function fill_product()
 
 
             });
+        });
+
+        // attaching the change event on quantity 
+        $(document).on("change", ".qty", function(e) {
+            var tr = $(this).closest("tr");
+            var qty = $(this).val();
+            var sellingprice = tr.find(".price").val();
+            var totalPrice = parseInt(qty) * parseInt(sellingprice);
+            tr.find(".total").val(totalPrice);
         });
 
     });
