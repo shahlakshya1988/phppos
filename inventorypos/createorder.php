@@ -120,7 +120,7 @@ function fill_product()
 
                         </div>
                         <div class="form-group">
-                            <label for="tax">Taxes</label>
+                            <label for="tax">Taxes (5%)</label>
                             <div class="input-group">
                                 <div class="input-group-addon">
                                     <i class="fa fa-usd"></i>
@@ -171,15 +171,15 @@ function fill_product()
                         </div>
                     </div>
                     <div class="clearfix"></div>
-                    <div class="col-lg-12">
+                    <div class="col-lg-6 pull-right">
                         <div class="form-group">
                             <label for="">Payment Method</label> <br>
                             <label for="paymentmethod1">
                                 <input type="radio" name="paymentmethod" id="paymentmethod1" class="minimal-red" checked value="Cash"> Cash
-                            </label> <br>
+                            </label> &nbsp;
                             <label for="paymentmethod2">
                                 <input type="radio" name="paymentmethod" id="paymentmethod2" class="minimal-red" value="Card"> Card
-                            </label> <br>
+                            </label> &nbsp;
                             <label for="paymentmethod3">
                                 <input type="radio" name="paymentmethod" id="paymentmethod3" class="minimal-red" value="Cheque"> Cheque
                             </label>
@@ -263,7 +263,7 @@ function fill_product()
             });
         });
 
-        // attaching the change event on quantity 
+        // attaching the change event on quantity
         /*
         $(document).on("change", ".qty", function(e) {
             var tr = $(this).closest("tr");
@@ -297,8 +297,8 @@ function fill_product()
             tr.find(".total").val(totalPrice);
 			calculate();
         });
-		
-	
+
+
 		calculate();
 
     });
@@ -308,19 +308,33 @@ function fill_product()
         $(this).closest("tr").remove();
 		calculate();
     });
-		function calculate(){
-			
-			var subtotal = 0;
-			var tax = 0;
-			var discount = 0;
-			var new_total = 0;
-			var paid_amount = 0;
-			var due = 0;
-			$(".total").each(function(){
-				subtotal = subtotal+($(this).val()*1);
-			});
-			//alert(subtotal);
-			$("#subtotal").attr("value",subtotal.toFixed(2));
-		}
+    $(document).on("keyup change","#paid,#discount",function(){
+        calculate();
+    });
+	function calculate(){
+
+		var subtotal = 0;
+		var tax = 0;
+		var discount = 0;
+		var net_total = 0;
+		var paid_amount = 0;
+		var due = 0;
+		$(".total").each(function(){
+			subtotal = subtotal+($(this).val()*1);
+		});
+
+        var taxamount= subtotal * 0.05;
+        $("#tax").val(taxamount.toFixed(2));
+		//alert(subtotal);
+		$("#subtotal").attr("value",subtotal.toFixed(2));
+
+        net_total = subtotal + taxamount;
+        discount = Number($("#discount").val().trim());
+        net_total -= discount;
+        paid_amount = Number($("#paid").val().trim());
+        due = net_total - paid_amount;
+        $("#total").val(net_total.toFixed(2));
+        $("#due").val(due.toFixed(2));
+	}
 </script>
 <?php require_once "./footer.php"; ?>
