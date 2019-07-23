@@ -253,6 +253,7 @@ function fill_product()
                     tr.find(".qty").val(1);
                     var totalPrice = 1 * parseInt(data["sellprice"]);
                     tr.find(".total").val(totalPrice);
+					calculate();
                 },
                 error: function() {
                     // alert("File Not Found");
@@ -294,13 +295,32 @@ function fill_product()
                 var totalPrice = 1 * parseInt(sellingprice);
             }
             tr.find(".total").val(totalPrice);
+			calculate();
         });
+		
+	
+		calculate();
 
     });
 
     $(document).on("click", ".btnRemove", function() {
         // $(this).parentsUntil("tr").parent().remove();
         $(this).closest("tr").remove();
+		calculate();
     });
+		function calculate(){
+			
+			var subtotal = 0;
+			var tax = 0;
+			var discount = 0;
+			var new_total = 0;
+			var paid_amount = 0;
+			var due = 0;
+			$(".total").each(function(){
+				subtotal = subtotal+($(this).val()*1);
+			});
+			//alert(subtotal);
+			$("#subtotal").attr("value",subtotal.toFixed(2));
+		}
 </script>
 <?php require_once "./footer.php"; ?>
