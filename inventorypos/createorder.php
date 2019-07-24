@@ -60,7 +60,7 @@ function fill_product()
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="purchasedate" class="form-control pull-right datepicker" id="purchasedate">
+                                <input type="text" name="orderdate" class="form-control pull-right datepicker" id="orderdate" readonly value="<?php echo date("d-F-Y"); ?>">
                             </div>
                             <!-- /.input group -->
                         </div>
@@ -115,7 +115,7 @@ function fill_product()
                                 <div class="input-group-addon">
                                     <i class="fa fa-usd"></i>
                                 </div>
-                                <input type="number" name="subtotal" id="subtotal" class="form-control" placeholder="Sub Total" required="">
+                                <input type="number" name="subtotal" id="subtotal" class="form-control" placeholder="Sub Total" required="" readonly>
                             </div>
 
                         </div>
@@ -125,7 +125,7 @@ function fill_product()
                                 <div class="input-group-addon">
                                     <i class="fa fa-usd"></i>
                                 </div>
-                                <input type="number" name="tax" id="tax" class="form-control" placeholder="Taxes" required>
+                                <input type="number" name="tax" id="tax" class="form-control" placeholder="Taxes" required readonly>
                             </div>
                         </div>
                         <div class="form-group">
@@ -134,7 +134,7 @@ function fill_product()
                                 <div class="input-group-addon">
                                     <i class="fa fa-usd"></i>
                                 </div>
-                                <input type="number" name="discount" id="discount" class="form-control" required="true" placeholder="Discount">
+                                <input type="number" name="discount" id="discount" class="form-control" required="true" placeholder="Discount" value="0">
                             </div>
 
                         </div>
@@ -146,7 +146,7 @@ function fill_product()
                                 <div class="input-group-addon">
                                     <i class="fa fa-usd"></i>
                                 </div>
-                                <input type="number" name="total" id="total" class="form-control" required>
+                                <input type="number" name="total" id="total" class="form-control" required readonly>
                             </div>
 
                         </div>
@@ -156,7 +156,7 @@ function fill_product()
                                 <div class="input-group-addon">
                                     <i class="fa fa-usd"></i>
                                 </div>
-                                <input type="number" name="paid" id="paid" placeholder="Paid Amount" class="form-control" required="">
+                                <input type="number" name="paid" id="paid" placeholder="Paid Amount" class="form-control" required="" value="0">
                             </div>
 
                         </div>
@@ -166,7 +166,7 @@ function fill_product()
                                 <div class="input-group-addon">
                                     <i class="fa fa-usd"></i>
                                 </div>
-                                <input type="number" name="due" id="due" class="form-control" value="0" placeholder="Enter Due Amount">
+                                <input type="number" name="due" id="due" class="form-control" value="0" placeholder="Enter Due Amount" readonly>
                             </div>
                         </div>
                     </div>

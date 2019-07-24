@@ -52,7 +52,8 @@
         //alert("Worlding");
     });
     $('.datepicker').datepicker({
-        autoclose: true
+        autoclose: true,
+        format:"dd-MM-yy"
     })
     $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
         checkboxClass: 'icheckbox_minimal-red',
