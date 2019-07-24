@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 21, 2019 at 03:25 PM
+-- Generation Time: Jul 24, 2019 at 02:42 AM
 -- Server version: 5.7.24
 -- PHP Version: 7.3.1
 
@@ -21,6 +21,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `pos_db`
 --
+CREATE DATABASE IF NOT EXISTS `pos_db` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `pos_db`;
 
 -- --------------------------------------------------------
 
@@ -44,6 +46,48 @@ INSERT INTO `tbl_category` (`catid`, `category`) VALUES
 (3, 'Computer'),
 (4, 'Tablet'),
 (5, 'Laptop');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_invoice`
+--
+
+DROP TABLE IF EXISTS `tbl_invoice`;
+CREATE TABLE IF NOT EXISTS `tbl_invoice` (
+  `invoice_id` int(255) NOT NULL AUTO_INCREMENT,
+  `customer_name` varchar(255) NOT NULL,
+  `orderdate` varchar(255) NOT NULL,
+  `orderdate_timestamp` varchar(255) NOT NULL,
+  `subtotal` double NOT NULL,
+  `tax` double NOT NULL,
+  `discount` double NOT NULL,
+  `total` double NOT NULL,
+  `paid` double NOT NULL,
+  `due` double NOT NULL,
+  `payment_type` varchar(255) NOT NULL,
+  PRIMARY KEY (`invoice_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_invoice_details`
+--
+
+DROP TABLE IF EXISTS `tbl_invoice_details`;
+CREATE TABLE IF NOT EXISTS `tbl_invoice_details` (
+  `invoice_details_id` int(255) NOT NULL AUTO_INCREMENT,
+  `invoice_id` int(255) NOT NULL,
+  `productid` int(255) NOT NULL,
+  `productname` varchar(255) NOT NULL,
+  `qty` int(255) NOT NULL,
+  `price` double NOT NULL,
+  `total` double NOT NULL,
+  `orderdate` varchar(255) NOT NULL,
+  `orderdate_timestamp` int(255) NOT NULL,
+  PRIMARY KEY (`invoice_details_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
