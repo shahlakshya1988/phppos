@@ -65,6 +65,14 @@ if(isset($_POST['btnSaveOrder'])){
             $insert_details->bindParam(':price',$price);
             $insert_details->bindParam(':total',$total);
             $insert_details->execute();
+            $insert_details_id = $pdo->lastInsertId();
+            if($insert_details_id != null){
+                $update_product_stock = $pdo->prepare("UPDATE `tbl_product` SET `stock` = `stock` - :qty where `productid` = :productid");
+                $update_product_stock->bindParam(":qty",$qty);
+                $update_product_stock->bindParam(":productid",$productid);
+                $update_product_stock->execute();
+            }
+
 
         }
         ?>
@@ -81,7 +89,7 @@ if(isset($_POST['btnSaveOrder'])){
             });
         </script>
         <?php
-        header("refresh:5;createorder.php");
+        header("refresh:5;orderlist.php");
     }
 
 } //if(isset($_POST['btnSaveOrder'])){
