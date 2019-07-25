@@ -25,6 +25,15 @@ if(isset($_POST['btnSaveOrder'])){
     $paid = trim($_POST['paid']);
     $due = trim($_POST['due']);
     $payment_type = trim($_POST['paymentmethod']);
+
+    /*** GETTTING VALUES IN FORM OF ARRAYS ***/
+    $arr_productname = $_POST["productname"];
+    $arr_productid = $_POST["productid"];
+    $arr_productstock = $_POST["productstock"];
+    $arr_productprice = $_POST["productprice"];
+    $arr_productqty = $_POST["productqty"];
+    $arr_producttotal = $_POST["producttotal"];
+    /*** GETTTING VALUES IN FORM OF ARRAYS ***/
     $insert = $pdo->prepare("INSERT INTO `tbl_invoice` (`customer_name`,`orderdate`,`orderdate_timestamp`,`subtotal`,`tax`,`discount`,`total`,`paid`,`due`,`payment_type`) values (:customer_name,:orderdate,:orderdate_timestamp,:subtotal,:tax,:discount,:total,:paid,:due,:payment_type)");
     //var_dump($pdo->errorInfo());
     $insert->bindParam(":customer_name",$customer_name);
@@ -38,7 +47,43 @@ if(isset($_POST['btnSaveOrder'])){
     $insert->bindParam(":due",$due);
     $insert->bindParam(":payment_type",$payment_type);
     $insert->execute();
-    
+    $invoice_id = $pdo->lastInsertId();
+    if($invoice_id!=null){
+        $insert_details = $pdo->prepare("INSERT INTO `tbl_invoice_details` (`invoice_id`,`productid`,`productname`,`qty`,`price`,`total`,`orderdate`,`orderdate_timestamp`) values (:invoice_id,:productid,:productname,:qty,:price,:total,:orderdate,:orderdate_timestamp)");
+        $insert_details->bindParam(':invoice_id',$invoice_id);
+        $insert_details->bindParam(':orderdate',$orderdate);
+        $insert_details->bindParam(':orderdate_timestamp',$orderdate_timestamp);
+        for($i=0;$i<count($arr_productid);$i++){
+            $productid = $arr_productid[$i];
+            $productname = $arr_productname[$i];
+            $qty = $arr_productqty[$i];
+            $price = $arr_productprice[$i];
+            $total = $arr_producttotal[$i];
+            $insert_details->bindParam(':productid',$productid);
+            $insert_details->bindParam(':productname',$productname);
+            $insert_details->bindParam(':qty',$qty);
+            $insert_details->bindParam(':price',$price);
+            $insert_details->bindParam(':total',$total);
+            $insert_details->execute();
+
+        }
+        ?>
+        <script type="text/javascript">
+            window.addEventListener("load",function(){
+                swal({
+                    title:"Order Created Successfully",
+                    text:"Order For <?php echo $customer_name; ?> Of <?php echo $total; ?> has been Created",
+                    icon:"success",
+                    button:false,
+                    showCancelButton:false,
+                    showConfirmButton:false
+                });
+            });
+        </script>
+        <?php
+        header("refresh:5;createorder.php");
+    }
+
 } //if(isset($_POST['btnSaveOrder'])){
 ?>
 <!-- Content Wrapper. Contains page content -->
@@ -275,6 +320,8 @@ if(isset($_POST['btnSaveOrder'])){
                 },
                 success: function(data) {
                     console.log(data);
+                    tr.find(".pname").val(data["productname"]);
+                    tr.find(".stock").val(data["stock"]);
                     tr.find(".stock").val(data["stock"]);
                     tr.find(".price").val(data["sellprice"]);
                     tr.find(".qty").val(1);
