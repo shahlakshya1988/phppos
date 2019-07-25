@@ -13,6 +13,33 @@ function fill_product()
     }
     return $output;
 }
+if(isset($_POST['btnSaveOrder'])){
+    //echo "<pre>",print_r($_POST),"</pre>";
+    $customer_name = trim($_POST['customername']);
+    $orderdate = trim($_POST['orderdate']);
+    $orderdate_timestamp = strtotime($orderdate);
+    $subtotal = trim($_POST['subtotal']);
+    $tax = trim($_POST['tax']);
+    $discount = trim($_POST['discount']);
+    $total = trim($_POST['total']);
+    $paid = trim($_POST['paid']);
+    $due = trim($_POST['due']);
+    $payment_type = trim($_POST['paymentmethod']);
+    $insert = $pdo->prepare("INSERT INTO `tbl_invoice` (`customer_name`,`orderdate`,`orderdate_timestamp`,`subtotal`,`tax`,`discount`,`total`,`paid`,`due`,`payment_type`) values (:customer_name,:orderdate,:orderdate_timestamp,:subtotal,:tax,:discount,:total,:paid,:due,:payment_type)");
+    //var_dump($pdo->errorInfo());
+    $insert->bindParam(":customer_name",$customer_name);
+    $insert->bindParam(":orderdate",$orderdate);
+    $insert->bindParam(":orderdate_timestamp",$orderdate_timestamp);
+    $insert->bindParam(":subtotal",$subtotal);
+    $insert->bindParam(":tax",$tax);
+    $insert->bindParam(":discount",$discount);
+    $insert->bindParam(":total",$total);
+    $insert->bindParam(":paid",$paid);
+    $insert->bindParam(":due",$due);
+    $insert->bindParam(":payment_type",$payment_type);
+    $insert->execute();
+    
+} //if(isset($_POST['btnSaveOrder'])){
 ?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
