@@ -25,10 +25,10 @@
             -------------------------->
         </div> <!-- div.box-body -->
         <div class="box-footer">
-            
+
         </div> <!-- div.box-footer -->
       </div> <!-- div.box -->
-    
+
 
     </section>
     <!-- /.content -->
