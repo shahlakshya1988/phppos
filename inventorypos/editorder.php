@@ -20,7 +20,7 @@ if(isset($_GET["id"]) && trim($_GET["id"])!=''){
     header("refresh:0;orderlist.php");
 }
 
-function fill_product()
+function fill_product($arg_productid=null)
 {
     global $pdo;
     $output = '';
@@ -28,7 +28,12 @@ function fill_product()
     $select_product->execute();
     if ($select_product->rowCount()) {
         while ($row = $select_product->fetch(PDO::FETCH_OBJ)) {
-            $output .= "<option value='{$row->productid}'>{$row->productname}</option>";
+            if($arg_productid == $row->productid){
+                $output .= "<option value='{$row->productid}' selected>{$row->productname}</option>";
+            }else{
+                $output .= "<option value='{$row->productid}'>{$row->productname}</option>";
+            }
+            
         }
     }
     return $output;
@@ -186,7 +191,30 @@ if(isset($_POST['btnSaveOrder'])){
                                     </th>
                                 </thead>
                                 <tbody id="productTable_tbody">
-
+                                    <?php 
+                                    $get_invoice_details = $pdo->prepare("SELECT * from `tbl_invoice_details` where `invoice_id` = :invoiceid");
+                                    $get_invoice_details->bindParam(":invoiceid",$invoice_id);
+                                    if($get_invoice_details->execute()){
+                                        while($invoice_details = $get_invoice_details->fetch(PDO::FETCH_OBJ)){
+                                            // getting lastest product stock
+                                            $get_stock = $pdo->prepare("SELECT `stock` FROM `tbl_product` where `productid` = :invoice_productid");
+                                            $get_stock -> bindParam(":invoice_productid",$invoice_details->productid);
+                                            $get_stock -> execute();
+                                            $stock = $get_stock->fetch(PDO::FETCH_OBJ);
+                                            // getting lastest product stock
+                                            echo "<tr>";
+                                                echo "<td><input type=\"hidden\" class=\"form-control pname\" name=\"productname[]\"  required value=\"".$invoice_details->productname."\" /></td>";
+                                                echo "<td><select style=\"width:250px;\" name=\"productid[]\" id=\"\" class=\"form-control select2 productid \" ><option>Select Product</option>".fill_product($invoice_details->productid)."</select></td>";
+                                                echo "<td><input type=\"text\" class=\"form-control stock\" name=\"productstock[]\"  readonly value=\"".$stock->stock."\" /></td>";
+                                                echo "<td><input type=\"text\" class=\"form-control price\" name=\"productprice[]\"  readonly value=\"".$invoice_details->price."\" /></td>";
+                                                echo "<td><input type=\"number\" class=\"form-control qty\" name=\"productqty[]\" value=\"".$invoice_details->qty."\" min=\"1\"   /></td>";
+                                                echo "<td><input type=\"text\" class=\"form-control total\" name=\"producttotal[]\"  readonly  value=\"".$invoice_details->total."\"/></td>";
+                                                echo "<td><center><button class=\" btn btn-danger btnRemove \" name=\"remove\" ><span class=\"glyphicon glyphicon-remove\"></span></button></center></td>";
+                                            echo "</tr>";
+                                        }
+                                    }
+                                 
+                                    ?>
 
                                 </tbody>
                                 <tfoot>

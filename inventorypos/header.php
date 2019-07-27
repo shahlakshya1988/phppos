@@ -193,6 +193,7 @@ desired effect
                             </span>
                         </a>
                         <ul class="treeview-menu">
+                            <li><a href="orderlist.php">View Orders</a></li>
                             <li><a href="createorder.php">Create Order</a></li>
                         </ul>
                     </li>
