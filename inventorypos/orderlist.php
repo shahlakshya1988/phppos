@@ -90,18 +90,37 @@
   $(document).on("click",".btnDelete",function(){
 	  var id = $(this).attr("id");
 	  var button = $(this);
-	  alert(id);
-	  $.ajax({
-		  type:"post",
-		  data:{id:id},
-		  url:"deleteOrder.php",
-		  success:function(data){
-			 button.closest("tr").hide();
-		  },
-		  error:function(){
-			  alert("Error");
+	 // alert(id);
+	  swal({
+		title: "Are you sure?",
+			  text: "Once deleted, you will not be able to recover this Product",
+			  icon: "warning",
+			  buttons: true,
+			  dangerMode: true,  
+	  }).then((willDelete)=>{
+		  if(willDelete){
+			  $.ajax({
+				  type:"post",
+				  data:{id:id},
+				  url:"deleteOrder.php",
+				  success:function(data){
+					 button.closest("tr").hide();
+					 swal({
+						 icon:"warning",
+						 title:"Order Deleted",
+						 text:"Order Deleted Successfully",
+						  button:"Ok"
+					 });
+				  },
+				  error:function(){
+					  //alert("Error");
+				  }
+			  });
+		  }else{
+			  swal("Operation Cancelled By User");
 		  }
 	  });
+	  
 	  return false;
   });
   </script>
