@@ -53,7 +53,7 @@
 
                                 echo "<td><a href=\"editorder.php?id={$orders->invoice_id}\" class=\"btn btn-info\" role=\"button\" data-toggle=\"tooltip\" title=\"Edit Invoice\"><span class=\"glyphicon glyphicon-pencil\"></span></a></td>";
 
-                                echo "<td><button id=\"{$orders->invoice_id}\" class=\"btn btn-danger\" role=\"button\" data-toggle=\"tooltip\" title=\"Delete Invoice\"><span class=\"glyphicon glyphicon-trash\"></span></button></td>";
+                                echo "<td><button id=\"{$orders->invoice_id}\" class=\"btn btn-danger btnDelete\" role=\"button\" data-toggle=\"tooltip\" title=\"Delete Invoice\"><span class=\"glyphicon glyphicon-trash\"></span></button></td>";
                             echo "</tr>";
                         }
                         ?>
@@ -86,4 +86,23 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+  <script type="text/javascript">
+  $(document).on("click",".btnDelete",function(){
+	  var id = $(this).attr("id");
+	  var button = $(this);
+	  alert(id);
+	  $.ajax({
+		  type:"post",
+		  data:{id:id},
+		  url:"deleteOrder.php",
+		  success:function(data){
+			 button.closest("tr").hide();
+		  },
+		  error:function(){
+			  alert("Error");
+		  }
+	  });
+	  return false;
+  });
+  </script>
 <?php require_once "./footer.php"; ?>

@@ -182,8 +182,8 @@ desired effect
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="productlist.php">Product List</a></li>
-                            <li><a href="addproduct.php">Add Product</a></li>
+                            <li><a href="productlist.php"> <i class="fa fa-th-list"></i> Product List</a></li>
+                            <li><a href="addproduct.php"> <i class="fa fa-product-hunt"></i> Add Product</a></li>
                         </ul>
                     </li>
                     <li class="treeview">
@@ -193,8 +193,8 @@ desired effect
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="orderlist.php">View Orders</a></li>
-                            <li><a href="createorder.php">Create Order</a></li>
+                            <li><a href="orderlist.php"> <i class="fa fa-list-ul"></i> View Orders</a></li>
+                            <li><a href="createorder.php"> <i class="fa fa-first-order"></i> Create Order</a></li>
                         </ul>
                     </li>
                     <li><a href="registration.php"><i class="fa fa-registered"></i> <span>Registration</span></a></li>
