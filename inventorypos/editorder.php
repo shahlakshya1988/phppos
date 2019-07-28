@@ -20,6 +20,19 @@ if(isset($_GET["id"]) && trim($_GET["id"])!=''){
     header("refresh:0;orderlist.php");
 }
 
+$invoice_details_query = $pdo->prepare("SELECT * FROM `tbl_invoice_details` where `invoice_id` = :invoice_id");
+$invoice_details_query->bindParam(":invoice_id",$invoice_id);
+$invoice_details_query->execute();
+
+
+
+/*
+foreach($row_invoice_details as $item_details){
+	echo "<br>";
+	echo "<pre>",print_r($item_details),"</pre>";
+	echo "<br>";
+} */
+
 function fill_product($arg_productid=null)
 {
     global $pdo;
@@ -39,8 +52,10 @@ function fill_product($arg_productid=null)
     return $output;
 }
 
-if(isset($_POST['btnSaveOrder'])){
+
+if(isset($_POST['btnUpdateOrder'])){
     //echo "<pre>",print_r($_POST),"</pre>";
+    $invoice_id = trim($_GET["id"]);
     $customer_name = trim($_POST['customername']);
     $orderdate = trim($_POST['orderdate']);
     $orderdate_timestamp = strtotime($orderdate);
@@ -60,72 +75,111 @@ if(isset($_POST['btnSaveOrder'])){
     $arr_productqty = $_POST["productqty"];
     $arr_producttotal = $_POST["producttotal"];
     /*** GETTTING VALUES IN FORM OF ARRAYS ***/
-    $insert = $pdo->prepare("INSERT INTO `tbl_invoice` (`customer_name`,`orderdate`,`orderdate_timestamp`,`subtotal`,`tax`,`discount`,`total`,`paid`,`due`,`payment_type`) values (:customer_name,:orderdate,:orderdate_timestamp,:subtotal,:tax,:discount,:total,:paid,:due,:payment_type)");
-    //var_dump($pdo->errorInfo());
-    $insert->bindParam(":customer_name",$customer_name);
-    $insert->bindParam(":orderdate",$orderdate);
-    $insert->bindParam(":orderdate_timestamp",$orderdate_timestamp);
-    $insert->bindParam(":subtotal",$subtotal);
-    $insert->bindParam(":tax",$tax);
-    $insert->bindParam(":discount",$discount);
-    $insert->bindParam(":total",$total);
-    $insert->bindParam(":paid",$paid);
-    $insert->bindParam(":due",$due);
-    $insert->bindParam(":payment_type",$payment_type);
-    $insert->execute();
-    $invoice_id = $pdo->lastInsertId();
-    if($invoice_id!=null){
-        $insert_details = $pdo->prepare("INSERT INTO `tbl_invoice_details` (`invoice_id`,`productid`,`productname`,`qty`,`price`,`total`,`orderdate`,`orderdate_timestamp`) values (:invoice_id,:productid,:productname,:qty,:price,:total,:orderdate,:orderdate_timestamp)");
-        $insert_details->bindParam(':invoice_id',$invoice_id);
-        $insert_details->bindParam(':orderdate',$orderdate);
-        $insert_details->bindParam(':orderdate_timestamp',$orderdate_timestamp);
-        for($i=0;$i<count($arr_productid);$i++){
-            $productid = $arr_productid[$i];
-            $productname = $arr_productname[$i];
-            $qty = $arr_productqty[$i];
-            $price = $arr_productprice[$i];
-            $total = $arr_producttotal[$i];
-            $insert_details->bindParam(':productid',$productid);
-            $insert_details->bindParam(':productname',$productname);
-            $insert_details->bindParam(':qty',$qty);
-            $insert_details->bindParam(':price',$price);
-            $insert_details->bindParam(':total',$total);
-            $insert_details->execute();
-            $insert_details_id = $pdo->lastInsertId();
-            if($insert_details_id != null){
-                $update_product_stock = $pdo->prepare("UPDATE `tbl_product` SET `stock` = `stock` - :qty where `productid` = :productid");
-                $update_product_stock->bindParam(":qty",$qty);
-                $update_product_stock->bindParam(":productid",$productid);
-                $update_product_stock->execute();
-            }
+	
+	
+	/*** writting values back for existing product quantities to product table ***/
+	while($row_invoice_details = $invoice_details_query->fetch(PDO::FETCH_OBJ)){
+		
+		$updateProductStock = $pdo->prepare("UPDATE `tbl_product` SET `stock` = `stock`+:invoice_stock where `productid` = :invoice_product_id LIMIT 1");
+		$updateProductStock->bindParam(":invoice_stock",$row_invoice_details->qty);
+		$updateProductStock->bindParam(":invoice_product_id",$row_invoice_details->productid);
+		$updateProductStock->execute();
+	}
+	/*** writting values back for existing product quantities to product table ***/
+	
+	/*** deleting the invoice details table with the matching invoiceid ***/
+	$delete_invoice_details = $pdo->prepare("DELETE FROM `tbl_invoice_details` where `invoice_id` = :invoice_id");
+	$delete_invoice_details -> bindParam(":invoice_id",$invoice_id);
+	$delete_invoice_details -> execute();
+	/*** deleting the invoice details table with the matching invoiceid ***/
+	
+	/****  UPDATING INVOICE MAIN TABLE `tbl_invoice`****/
+	$update_invoice_query = "UPDATE `tbl_invoice` SET 
+	`customer_name` = :customer_name,
+	`orderdate` = :orderdate,
+	`orderdate_timestamp` = :orderdate_timestamp,
+	`subtotal` = :subtotal,
+	`tax` = :tax,
+	`discount` = :discount,
+	`total` = :total,
+	`paid` = :paid,
+	`due` = :due,
+	`payment_type` =  :payment_type
+	WHERE `invoice_id` = :invoice_id";
+	$update_invoice = $pdo->prepare($update_invoice_query);
+	$update_invoice->bindParam(":customer_name",$customer_name);
+	$update_invoice->bindParam(":orderdate",$orderdate);
+	$update_invoice->bindParam(":orderdate_timestamp",$orderdate_timestamp);
+	$update_invoice->bindParam(":subtotal",$subtotal);
+	$update_invoice->bindParam(":tax",$tax);
+	$update_invoice->bindParam(":discount",$discount);
+	$update_invoice->bindParam(":total",$total);
+	$update_invoice->bindParam(":paid",$paid);
+	$update_invoice->bindParam(":due",$due);
+	$update_invoice->bindParam(":payment_type",$payment_type);
+	$update_invoice->bindParam(":invoice_id",$invoice_id);
+	$update_invoice->execute();
+	/****  UPDATING INVOICE MAIN TABLE `tbl_invoice`****/
+	
+	
+	/*** INSERTING DATA INTO tbl_invoice_details ****/
+	$insert_tbl_invoice_details_query = "INSERT INTO `tbl_invoice_details` (`invoice_id`,`productid`,`productname`,`qty`,`price`,`total`,`orderdate`,`orderdate_timestamp`) values (:invoice_id,:productid,:productname,:qty,:price,:total,:orderdate,:orderdate_timestamp)";
+	$insert_tbl_invoice_details = $pdo->prepare($insert_tbl_invoice_details_query);
+	$insert_tbl_invoice_details->bindParam(":invoice_id",$invoice_id);
+	$insert_tbl_invoice_details->bindParam(":orderdate",$orderdate);
+	$insert_tbl_invoice_details->bindParam(":orderdate_timestamp",$orderdate_timestamp);
+	for($i=0;$i<count($arr_productid);$i++){
+		$productid = $arr_productid[$i];
+		$productname = $arr_productname[$i];
+		$qty = $arr_productqty[$i];
+		//var_dump($qty);
+		//echo "<br>**************<br>";
+		$price = $arr_productprice[$i];
+		$total = $arr_producttotal[$i];
+		
+		$insert_tbl_invoice_details->bindParam(":productid",$productid);
+		$insert_tbl_invoice_details->bindParam(":productname",$productname);
+		$insert_tbl_invoice_details->bindParam(":qty",$qty);
+		$insert_tbl_invoice_details->bindParam(":price",$price);
+		$insert_tbl_invoice_details->bindParam(":total",$total);
+		$insert_tbl_invoice_details->execute();
+		$invoice_details_id = $pdo->lastInsertId();
+		if($invoice_details_id != null){
+			$udpate_product_stock_query = "UPDATE `tbl_product` SET 
+			`stock` = `stock` - :qty 
+			WHERE `productid` = :productid LIMIT 1";
+			$update_product_stock = $pdo->prepare($udpate_product_stock_query);
+			$update_product_stock->bindParam(":qty",$qty);
+			$update_product_stock->bindParam(":productid",$productid);
+			$update_product_stock->execute();
+		}
+	}
+	
+	/*** INSERTING DATA INTO tbl_invoice_details ****/
+	?>
+	<script type="text/javascript">
+		window.addEventListener("load",function(){
+			swal({
+				title:"Order Updated",
+				text:"Order Updated Successfully",
+				button:false,
+				showCancelButton:false,
+				showConfirmButton:false,
+				icon:'success'
+			});
+		});
+	</script>
+	<?php  
+	header("refresh:4;orderlist.php");
 
-
-        }
-        ?>
-        <script type="text/javascript">
-            window.addEventListener("load",function(){
-                swal({
-                    title:"Order Edited Successfully",
-                    text:"Order For <?php echo $customer_name; ?> Of <?php echo $total; ?> has been Updated",
-                    icon:"success",
-                    button:false,
-                    showCancelButton:false,
-                    showConfirmButton:false
-                });
-            });
-        </script>
-        <?php
-        header("refresh:5;orderlist.php");
-    }
-
-} //if(isset($_POST['btnSaveOrder'])){
+} //if(isset($_POST['btnUpdateOrder'])){
 ?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Create Order
+            Edit Order
             <small></small>
         </h1>
         <ol class="breadcrumb">
@@ -433,6 +487,31 @@ if(isset($_POST['btnSaveOrder'])){
 		calculate();
 
     });
+	$("#productTable").delegate(".qty", "keyup change", function() {
+            var tr = $(this).closest("tr");
+            var qty = $(this).val();
+            qty = parseInt(qty);
+            var sellingprice = tr.find(".price").val();
+            //alert(isNaN(qty));
+            //alert(qty);
+            if (qty > parseInt(tr.find(".stock").val())) {
+                swal("Warning", "Warning! This Much Quantity Is Not Available", "warning");
+
+                tr.find(".qty").val(1);
+                var totalPrice = 1 * parseInt(sellingprice);
+                tr.find(".total").val(totalPrice);
+                return;
+
+            }
+            if (!isNaN(qty)) {
+                var totalPrice = parseInt(qty) * parseInt(sellingprice);
+
+            } else {
+                var totalPrice = 1 * parseInt(sellingprice);
+            }
+            tr.find(".total").val(totalPrice);
+			calculate();
+        });
 
     $(document).on("click", ".btnRemove", function() {
         // $(this).parentsUntil("tr").parent().remove();
