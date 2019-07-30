@@ -52,10 +52,25 @@
 	$pdf->Cell(20,10,"Qty",0,0,"C",false);
 	$pdf->Cell(30,10,"Price",0,0,"C",false);
 	$pdf->Cell(40,10,"Total",0,1,"R",false);
-	$pdf->Ln(2);
+    $pdf->Ln(2);
+    $pdf->Ln(2);
+   
+    $pdf->SetFillColor(208,208,208);
+	$pdf->Cell(149,10,"Sub Total",0,0,"R",false);
+    $pdf->Cell(40,10,"2222",0,1,"R",false);
+    $pdf->Cell(149,10,"Tax",0,0,"R",false);
+	$pdf->Cell(40,10,"2222",0,1,"R",false);
+    $pdf->Cell(149,10,"Discount",0,0,"R",false);
+    $pdf->Cell(40,10,"2222",0,1,"R",false);
 	$pdf->SetFont("Arial","BI","16");
-	$pdf->Cell(149,12," ",1,0,"C",true);
-	$pdf->Cell(40,12,"Total",1,1,"C",true);
+	$pdf->Cell(149,12," Total ",1,0,"C",true);
+    $pdf->Cell(40,12,"22222",1,1,"C",false);
+    $pdf->Cell(149,12," Paid ",1,0,"C",true);
+    $pdf->Cell(40,12,"22222",1,1,"C",false);
+    $pdf->Cell(149,12," Due ",1,0,"C",true);
+    $pdf->Cell(40,12,"22222",1,1,"C",false);
+    $pdf->Cell(149,12,"Payment Method ",1,0,"C",true);
+	$pdf->Cell(40,12,"22222",1,1,"C",false);
 
 	$pdf->output();
 	
