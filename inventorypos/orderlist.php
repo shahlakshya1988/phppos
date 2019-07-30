@@ -49,7 +49,7 @@
                                 echo "<td>{$orders->paid}</td>";
                                 echo "<td>{$orders->due}</td>";
                                 echo "<td>{$orders->payment_type}</td>";
-                                echo "<td><a href=\"vieworder.php?id={$orders->invoice_id}\" class=\"btn btn-success\" role=\"button\" data-toggle=\"tooltip\" title=\"Print Invoice\"><span class=\"glyphicon glyphicon-print\"></span></a></td>";
+                                echo "<td><a target=\"_blank\" href=\"invoice_db.php?id={$orders->invoice_id}\" class=\"btn btn-success\" role=\"button\" data-toggle=\"tooltip\" title=\"Print Invoice\"><span class=\"glyphicon glyphicon-print\"></span></a></td>";
 
                                 echo "<td><a href=\"editorder.php?id={$orders->invoice_id}\" class=\"btn btn-info\" role=\"button\" data-toggle=\"tooltip\" title=\"Edit Invoice\"><span class=\"glyphicon glyphicon-pencil\"></span></a></td>";
 
