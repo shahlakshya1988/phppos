@@ -11,9 +11,20 @@ if(isset($_POST["btnDateFilter"])){
   $sel_tbl_invoice = $pdo->prepare($sel_tbl_invoice_query);
   $sel_tbl_invoice->bindParam(":fromdate_timestamp",$fromdate_timestamp);
   $sel_tbl_invoice->bindParam(":todate_timestamp",$todate_timestamp);
+
+  /*** getting queries for the boxes ***/
+  $get_box_query="SELECT count(invoice_id) as `total_invoice`, sum(total) as `net_total`, sum(subtotal) as `sub_total` FROM `tbl_invoice` where `orderdate_timestamp` BETWEEN :fromdate_timestamp and :todate_timestamp";
+  $get_box=$pdo->prepare($get_box_query);
+  $get_box->bindParam(":fromdate_timestamp",$fromdate_timestamp);
+  $get_box->bindParam(":todate_timestamp",$todate_timestamp);
+  /*** getting queries for the boxes ***/
 }else{
   $sel_tbl_invoice_query = "SELECT * FROM `tbl_invoice`"; 
   $sel_tbl_invoice = $pdo->prepare($sel_tbl_invoice_query);
+  /*** getting queries for the boxes ***/
+  $get_box_query="SELECT count(invoice_id) as `total_invoice`, sum(total) as `net_total`, sum(subtotal) as `sub_total` FROM `tbl_invoice` ";
+  $get_box=$pdo->prepare($get_box_query);
+  /*** getting queries for the boxes ***/
   
 } 
 ?>
@@ -76,26 +87,18 @@ if(isset($_POST["btnDateFilter"])){
             <br><br>
              <!-- Info boxes -->
       <div class="row">
-        <div class="col-md-3 col-sm-6 col-xs-12">
-          <div class="info-box">
-            <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
-
-            <div class="info-box-content">
-              <span class="info-box-text">CPU Traffic</span>
-              <span class="info-box-number">90<small>%</small></span>
-            </div>
-            <!-- /.info-box-content -->
-          </div>
-          <!-- /.info-box -->
-        </div>
+        <?php 
+        $get_box->execute();
+        $row_get_box = $get_box->fetch(PDO::FETCH_OBJ);
+        ?>
         <!-- /.col -->
-        <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="col-md-4 col-sm-4 col-xs-12">
           <div class="info-box">
-            <span class="info-box-icon bg-red"><i class="fa fa-google-plus"></i></span>
+            <span class="info-box-icon bg-red"><i class="fa fa-files-o"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">Likes</span>
-              <span class="info-box-number">41,410</span>
+              <span class="info-box-text">Total Invoice</span>
+              <span class="info-box-number"><?php echo number_format($row_get_box->total_invoice); ?></span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -106,26 +109,26 @@ if(isset($_POST["btnDateFilter"])){
         <!-- fix for small devices only -->
         <div class="clearfix visible-sm-block"></div>
 
-        <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="col-md-4 col-sm-4 col-xs-12">
           <div class="info-box">
-            <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+            <span class="info-box-icon bg-green"><i class="fa fa-usd"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">Sales</span>
-              <span class="info-box-number">760</span>
+              <span class="info-box-text">Sub Total</span>
+              <span class="info-box-number"><?php echo number_format($row_get_box->sub_total); ?></span>
             </div>
             <!-- /.info-box-content -->
           </div>
           <!-- /.info-box -->
         </div>
         <!-- /.col -->
-        <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="col-md-4 col-sm-4 col-xs-12">
           <div class="info-box">
-            <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
+            <span class="info-box-icon bg-yellow"><i class="fa fa-usd"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">New Members</span>
-              <span class="info-box-number">2,000</span>
+              <span class="info-box-text">Net Total</span>
+              <span class="info-box-number"><?php echo number_format($row_get_box->net_total); ?></span>
             </div>
             <!-- /.info-box-content -->
           </div>
