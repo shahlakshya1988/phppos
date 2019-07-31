@@ -197,6 +197,17 @@ desired effect
                             <li><a href="createorder.php"> <i class="fa fa-first-order"></i> Create Order</a></li>
                         </ul>
                     </li>
+                    <li class="treeview">
+                        <a href="#"><i class="fa fa-product-hunt"></i> <span>Sales Report</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="tablereport.php"> <i class="fa fa-list-ul"></i> Table Report</a></li>
+                            <li><a href="graphreport.php"> <i class="fa fa-first-order"></i> Graph Report</a></li>
+                        </ul>
+                    </li>
                     <li><a href="registration.php"><i class="fa fa-registered"></i> <span>Registration</span></a></li>
                     <?php /* <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
